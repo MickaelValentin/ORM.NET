@@ -1,0 +1,12 @@
+C:\Users\Pc\Desktop\CoursIngesup-master\CoursIngesup-master\b3\dotnet\cours\ConsoleAppBach3\Project_Orn\bin\Debug\Project_Orn.dll
+C:\Users\Pc\Desktop\CoursIngesup-master\CoursIngesup-master\b3\dotnet\cours\ConsoleAppBach3\Project_Orn\bin\Debug\Project_Orn.pdb
+C:\Users\Pc\Desktop\CoursIngesup-master\CoursIngesup-master\b3\dotnet\cours\ConsoleAppBach3\Project_Orn\obj\Debug\Project_Orn.csproj.CoreCompileInputs.cache
+C:\Users\Pc\Desktop\CoursIngesup-master\CoursIngesup-master\b3\dotnet\cours\ConsoleAppBach3\Project_Orn\obj\Debug\Project_Orn.dll
+C:\Users\Pc\Desktop\CoursIngesup-master\CoursIngesup-master\b3\dotnet\cours\ConsoleAppBach3\Project_Orn\obj\Debug\Project_Orn.pdb
+C:\Users\Pc\Desktop\CoursIngesup-master\CoursIngesup-master\b3\dotnet\cours\ConsoleAppBach3\Project_Orn\obj\Debug\Project_Orn.csprojResolveAssemblyReference.cache
+C:\Users\tberr\Downloads\cours\ConsoleAppBach3\Project_Orn\bin\Debug\Project_Orn.dll
+C:\Users\tberr\Downloads\cours\ConsoleAppBach3\Project_Orn\bin\Debug\Project_Orn.pdb
+C:\Users\tberr\Downloads\cours\ConsoleAppBach3\Project_Orn\obj\Debug\Project_Orn.csprojResolveAssemblyReference.cache
+C:\Users\tberr\Downloads\cours\ConsoleAppBach3\Project_Orn\obj\Debug\Project_Orn.csproj.CoreCompileInputs.cache
+C:\Users\tberr\Downloads\cours\ConsoleAppBach3\Project_Orn\obj\Debug\Project_Orn.dll
+C:\Users\tberr\Downloads\cours\ConsoleAppBach3\Project_Orn\obj\Debug\Project_Orn.pdb
