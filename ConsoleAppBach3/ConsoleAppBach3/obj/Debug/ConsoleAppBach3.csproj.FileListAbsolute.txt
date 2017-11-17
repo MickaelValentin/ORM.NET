@@ -1,0 +1,17 @@
+C:\Users\vlecl\Documents\Visual Studio 2017\Projects\ConsoleAppBach3\ConsoleAppBach3\bin\Debug\ConsoleAppBach3.exe.config
+C:\Users\vlecl\Documents\Visual Studio 2017\Projects\ConsoleAppBach3\ConsoleAppBach3\bin\Debug\ConsoleAppBach3.exe
+C:\Users\vlecl\Documents\Visual Studio 2017\Projects\ConsoleAppBach3\ConsoleAppBach3\bin\Debug\ConsoleAppBach3.pdb
+C:\Users\vlecl\Documents\Visual Studio 2017\Projects\ConsoleAppBach3\ConsoleAppBach3\obj\Debug\ConsoleAppBach3.csprojResolveAssemblyReference.cache
+C:\Users\vlecl\Documents\Visual Studio 2017\Projects\ConsoleAppBach3\ConsoleAppBach3\obj\Debug\ConsoleAppBach3.csproj.CoreCompileInputs.cache
+C:\Users\vlecl\Documents\Visual Studio 2017\Projects\ConsoleAppBach3\ConsoleAppBach3\obj\Debug\ConsoleAppBach3.exe
+C:\Users\vlecl\Documents\Visual Studio 2017\Projects\ConsoleAppBach3\ConsoleAppBach3\obj\Debug\ConsoleAppBach3.pdb
+C:\Users\Pc\Desktop\CoursIngesup-master\CoursIngesup-master\b3\dotnet\cours\ConsoleAppBach3\ConsoleAppBach3\bin\Debug\ConsoleAppBach3.exe.config
+C:\Users\Pc\Desktop\CoursIngesup-master\CoursIngesup-master\b3\dotnet\cours\ConsoleAppBach3\ConsoleAppBach3\bin\Debug\ConsoleAppBach3.xml
+C:\Users\Pc\Desktop\CoursIngesup-master\CoursIngesup-master\b3\dotnet\cours\ConsoleAppBach3\ConsoleAppBach3\bin\Debug\ConsoleAppBach3.exe
+C:\Users\Pc\Desktop\CoursIngesup-master\CoursIngesup-master\b3\dotnet\cours\ConsoleAppBach3\ConsoleAppBach3\bin\Debug\ConsoleAppBach3.pdb
+C:\Users\Pc\Desktop\CoursIngesup-master\CoursIngesup-master\b3\dotnet\cours\ConsoleAppBach3\ConsoleAppBach3\obj\Debug\ConsoleAppBach3.csprojResolveAssemblyReference.cache
+C:\Users\Pc\Desktop\CoursIngesup-master\CoursIngesup-master\b3\dotnet\cours\ConsoleAppBach3\ConsoleAppBach3\obj\Debug\ConsoleAppBach3.csproj.CoreCompileInputs.cache
+C:\Users\Pc\Desktop\CoursIngesup-master\CoursIngesup-master\b3\dotnet\cours\ConsoleAppBach3\ConsoleAppBach3\obj\Debug\ConsoleAppBach3.exe
+C:\Users\Pc\Desktop\CoursIngesup-master\CoursIngesup-master\b3\dotnet\cours\ConsoleAppBach3\ConsoleAppBach3\obj\Debug\ConsoleAppBach3.pdb
+C:\Users\Pc\Desktop\CoursIngesup-master\CoursIngesup-master\b3\dotnet\cours\ConsoleAppBach3\ConsoleAppBach3\bin\Debug\Project_Orn.dll
+C:\Users\Pc\Desktop\CoursIngesup-master\CoursIngesup-master\b3\dotnet\cours\ConsoleAppBach3\ConsoleAppBach3\bin\Debug\Project_Orn.pdb

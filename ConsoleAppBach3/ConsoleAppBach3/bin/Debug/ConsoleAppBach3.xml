@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ConsoleAppBach3</name>
+    </assembly>
+    <members>
+        <member name="T:ConsoleAppBach3.Metier.Contact">
+            <summary>
+            Class qui représente Contact
+            </summary>
+            <seealso cref="T:System.IComparable`1"/>
+        </member>
+        <member name="P:ConsoleAppBach3.Metier.Contact.Nom">
+            <summary>
+            Nom du contact
+            </summary>
+        </member>
+        <member name="P:ConsoleAppBach3.Metier.Contact.Mail">
+            <summary>
+            Mail du contact
+            </summary>
+            <exception cref="T:System.ArgumentException">Si le format du mail est incorrect.</exception>
+        </member>
+        <member name="M:ConsoleAppBach3.Metier.Contact.CompareTo(ConsoleAppBach3.Metier.Contact)">
+            <summary>
+            
+            </summary>
+            <param name="other"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
