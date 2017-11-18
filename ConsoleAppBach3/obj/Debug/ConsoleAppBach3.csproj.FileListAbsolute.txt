@@ -25,3 +25,13 @@ C:\Users\tberr\Downloads\cours\ConsoleAppBach3\ConsoleAppBach3\obj\Debug\Console
 C:\Users\tberr\Downloads\cours\ConsoleAppBach3\ConsoleAppBach3\obj\Debug\ConsoleAppBach3.csproj.CoreCompileInputs.cache
 C:\Users\tberr\Downloads\cours\ConsoleAppBach3\ConsoleAppBach3\obj\Debug\ConsoleAppBach3.exe
 C:\Users\tberr\Downloads\cours\ConsoleAppBach3\ConsoleAppBach3\obj\Debug\ConsoleAppBach3.pdb
+C:\Users\tberr\OneDrive\Documents\Ecole\Net - B3\ORM\ConsoleAppBach3\bin\Debug\ConsoleAppBach3.exe.config
+C:\Users\tberr\OneDrive\Documents\Ecole\Net - B3\ORM\ConsoleAppBach3\bin\Debug\ConsoleAppBach3.xml
+C:\Users\tberr\OneDrive\Documents\Ecole\Net - B3\ORM\ConsoleAppBach3\bin\Debug\ConsoleAppBach3.exe
+C:\Users\tberr\OneDrive\Documents\Ecole\Net - B3\ORM\ConsoleAppBach3\bin\Debug\ConsoleAppBach3.pdb
+C:\Users\tberr\OneDrive\Documents\Ecole\Net - B3\ORM\ConsoleAppBach3\bin\Debug\Project_Orn.dll
+C:\Users\tberr\OneDrive\Documents\Ecole\Net - B3\ORM\ConsoleAppBach3\bin\Debug\Project_Orn.pdb
+C:\Users\tberr\OneDrive\Documents\Ecole\Net - B3\ORM\ConsoleAppBach3\obj\Debug\ConsoleAppBach3.csprojResolveAssemblyReference.cache
+C:\Users\tberr\OneDrive\Documents\Ecole\Net - B3\ORM\ConsoleAppBach3\obj\Debug\ConsoleAppBach3.csproj.CoreCompileInputs.cache
+C:\Users\tberr\OneDrive\Documents\Ecole\Net - B3\ORM\ConsoleAppBach3\obj\Debug\ConsoleAppBach3.exe
+C:\Users\tberr\OneDrive\Documents\Ecole\Net - B3\ORM\ConsoleAppBach3\obj\Debug\ConsoleAppBach3.pdb

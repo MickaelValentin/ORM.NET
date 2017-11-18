@@ -10,3 +10,9 @@ C:\Users\tberr\Downloads\cours\ConsoleAppBach3\Project_Orn\obj\Debug\Project_Orn
 C:\Users\tberr\Downloads\cours\ConsoleAppBach3\Project_Orn\obj\Debug\Project_Orn.csproj.CoreCompileInputs.cache
 C:\Users\tberr\Downloads\cours\ConsoleAppBach3\Project_Orn\obj\Debug\Project_Orn.dll
 C:\Users\tberr\Downloads\cours\ConsoleAppBach3\Project_Orn\obj\Debug\Project_Orn.pdb
+C:\Users\tberr\OneDrive\Documents\Ecole\Net - B3\ORM\Project_Orn\bin\Debug\Project_Orn.dll
+C:\Users\tberr\OneDrive\Documents\Ecole\Net - B3\ORM\Project_Orn\bin\Debug\Project_Orn.pdb
+C:\Users\tberr\OneDrive\Documents\Ecole\Net - B3\ORM\Project_Orn\obj\Debug\Project_Orn.csprojResolveAssemblyReference.cache
+C:\Users\tberr\OneDrive\Documents\Ecole\Net - B3\ORM\Project_Orn\obj\Debug\Project_Orn.csproj.CoreCompileInputs.cache
+C:\Users\tberr\OneDrive\Documents\Ecole\Net - B3\ORM\Project_Orn\obj\Debug\Project_Orn.dll
+C:\Users\tberr\OneDrive\Documents\Ecole\Net - B3\ORM\Project_Orn\obj\Debug\Project_Orn.pdb
