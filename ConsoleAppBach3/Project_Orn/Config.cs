@@ -124,6 +124,70 @@ namespace Project_Orn
                 }
             }
         }
+
+        public static void testPosgreSql()
+        {
+
+            //    OdbcConnection conn = new OdbcConnection("DSN=DRIVER={MySQL ODBC 3.51 Driver;SERVER=localhost;DATABASE=test;UID=root;PWD=root; OPTION=3");
+
+
+
+
+            OdbcConnection conn = new OdbcConnection(
+
+            "DRIVER={PostgreSQL UNICODE};" +
+                   "SERVER=localhost;" +
+                    "Port=5432;" +
+                   "database=testorm;" +  
+                   "UID=postgres;" +
+                   "PWD=root;");
+
+
+            // 1. Instantiate the connection
+
+
+
+            OdbcDataReader rdr = null;
+
+            try
+            {
+                // 2. Open the connection
+                conn.Open();
+
+                // 3. Pass the connection to a command object
+                OdbcCommand cmd = new OdbcCommand("select * from test", conn);
+
+                //
+                // 4. Use the connection
+                //
+
+                // get query results
+                rdr = cmd.ExecuteReader();
+
+                // print the CustomerID of each record
+                while (rdr.Read())
+                {
+                    Console.WriteLine(rdr["name"]);
+
+                }
+                Console.ReadKey();
+            }
+            finally
+            {
+                // close the reader
+                if (rdr != null)
+                {
+                    rdr.Close();
+                }
+
+                // 5. Close the connection
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+            }
+        }
+
     }
 
     public static class Configuration
