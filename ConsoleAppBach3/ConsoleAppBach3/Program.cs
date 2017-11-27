@@ -24,7 +24,11 @@ namespace ConsoleAppBach3
 
             //Class1.testSqlServer();
             //Class1.DeleteSQLServer();
-            Class1.PostGreConnexion();
+            //Class1.PostGreConnexion();
+            //Class1.InsertPostGre();
+            Class1.UpdatePostGre();
+            //Class1.PostGreConnexion();
+            //Class1.DeletePostGre();
         
         }
 

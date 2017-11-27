@@ -24,3 +24,12 @@ C:\Users\MickaëlV\Documents\Visual Studio 2017\Projects\cours\cours\ConsoleAppB
 C:\Users\MickaëlV\Documents\Visual Studio 2017\Projects\cours\cours\ConsoleAppBach3\ConsoleAppBach3\obj\Debug\ConsoleAppBach3.csprojResolveAssemblyReference.cache
 C:\Users\MickaëlV\Documents\Visual Studio 2017\Projects\cours\cours\ConsoleAppBach3\ConsoleAppBach3\obj\Debug\ConsoleAppBach3.exe
 C:\Users\MickaëlV\Documents\Visual Studio 2017\Projects\cours\cours\ConsoleAppBach3\ConsoleAppBach3\obj\Debug\ConsoleAppBach3.pdb
+C:\Users\MickaëlV\Documents\GitHub\ORM.NET\ConsoleAppBach3\ConsoleAppBach3\bin\Debug\ConsoleAppBach3.exe.config
+C:\Users\MickaëlV\Documents\GitHub\ORM.NET\ConsoleAppBach3\ConsoleAppBach3\bin\Debug\ConsoleAppBach3.xml
+C:\Users\MickaëlV\Documents\GitHub\ORM.NET\ConsoleAppBach3\ConsoleAppBach3\bin\Debug\ConsoleAppBach3.exe
+C:\Users\MickaëlV\Documents\GitHub\ORM.NET\ConsoleAppBach3\ConsoleAppBach3\bin\Debug\ConsoleAppBach3.pdb
+C:\Users\MickaëlV\Documents\GitHub\ORM.NET\ConsoleAppBach3\ConsoleAppBach3\bin\Debug\Project_Orn.dll
+C:\Users\MickaëlV\Documents\GitHub\ORM.NET\ConsoleAppBach3\ConsoleAppBach3\bin\Debug\Project_Orn.pdb
+C:\Users\MickaëlV\Documents\GitHub\ORM.NET\ConsoleAppBach3\ConsoleAppBach3\obj\Debug\ConsoleAppBach3.csprojResolveAssemblyReference.cache
+C:\Users\MickaëlV\Documents\GitHub\ORM.NET\ConsoleAppBach3\ConsoleAppBach3\obj\Debug\ConsoleAppBach3.exe
+C:\Users\MickaëlV\Documents\GitHub\ORM.NET\ConsoleAppBach3\ConsoleAppBach3\obj\Debug\ConsoleAppBach3.pdb

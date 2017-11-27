@@ -135,7 +135,7 @@ namespace Project_Orn
 
             // 1. Instantiate the connection
             OdbcConnection conn = new OdbcConnection(
-                "Driver={PostgreSQL ODBC Driver(UNICODE)};Server=127.0.0.1;Port=5432;Database=orm;UID=mickaël;PWD=170514");
+                "Driver={PostgreSQL ODBC Driver(UNICODE)};Server=localhost;Port=5432;Database=orm;UID=mickaël;PWD=170514");
             // 1. Instantiate the connection
 
 
@@ -147,7 +147,7 @@ namespace Project_Orn
                 conn.Open();
 
                 // 3. Pass the connection to a command object
-                OdbcCommand cmd = new OdbcCommand("select * from Customers", conn);
+                OdbcCommand cmd = new OdbcCommand("select * from customers", conn);
 
                 //
                 // 4. Use the connection
@@ -178,6 +178,138 @@ namespace Project_Orn
                     conn.Close();
                 }
             }
+        }
+
+        public static void InsertPostGre()
+        {
+            Console.WriteLine("Que voulez-vous insérer ?");
+            /*Console.WriteLine("Entrez le nom de la table");
+            string tablename = Console.ReadLine();*/
+            /*Console.WriteLine("Entrez le nom de la colonne");
+            string columnname = Console.ReadLine();*/
+            Console.WriteLine("Entrez le nom de la propriété");
+            string propertyname = Console.ReadLine();
+
+
+            // 1. Instantiate the connection
+            OdbcConnection conn = new OdbcConnection(
+                "Driver={PostgreSQL ODBC Driver(UNICODE)};Server=localhost;Port=5432;Database=orm;UID=mickaël;PWD=170514");
+
+
+            try
+            {
+                // 2. Open the connection
+                conn.Open();
+
+                // 3. Pass the connection to a command object
+                OdbcCommand cmd = new OdbcCommand("insert into customers2 (surname) values (?)", conn);
+
+                // 2. define parameters used in command object
+                /*OdbcParameter param1 = new OdbcParameter();
+                param1.ParameterName = "@TableName";
+                param1.Value = tablename;*/
+
+                /*OdbcParameter param2 = new OdbcParameter(); 
+                param2.ParameterName = "@ColumnName";
+                param2.Value = columnname;*/
+
+                /* OdbcParameter param3 = new OdbcParameter();
+                 param3.ParameterName = "@PropertyName";
+                 param3.Value = propertyname;*/
+
+                // 3. add new parameter to command object
+                //cmd.Parameters.Add(param1);
+                //cmd.Parameters.Add(param2);
+                //cmd.Parameters.Add(param3);
+
+                cmd.Parameters.Add("@PropertyName", OdbcType.NVarChar).Value = propertyname;
+
+
+                cmd.ExecuteNonQuery();
+
+
+
+            }
+            finally
+            {
+
+                // 5. Close the connection
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+            }
+
+        }
+
+        public static void UpdatePostGre()
+        {
+            Console.WriteLine("Que voulez-vous modifier ?");
+            /*Console.WriteLine("Entrez le nom de la table");
+            string tablename = Console.ReadLine();*/
+            /*Console.WriteLine("Entrez le nom de la colonne");
+            string columnname = Console.ReadLine();*/
+            Console.WriteLine("Entrez la valeur à modifier");
+            string oldvalue = Console.ReadLine();
+            Console.WriteLine("Entrez la nouvelle valeur");
+            string newvalue = Console.ReadLine();
+
+
+            // 1. Instantiate the connection
+            OdbcConnection conn = new OdbcConnection(
+                "Driver={PostgreSQL ODBC Driver(UNICODE)};Server=localhost;Port=5432;Database=orm;UID=mickaël;PWD=170514");
+
+
+            try
+            {
+                // 2. Open the connection
+                conn.Open();
+
+                // 3. Pass the connection to a command object
+                OdbcCommand cmd = new OdbcCommand("update customers set prenom  = ? where prenom = ?", conn);
+
+                // 2. define parameters used in command object
+                /*OdbcParameter param1 = new OdbcParameter();
+                param1.ParameterName = "@TableName";
+                param1.Value = tablename;*/
+
+                /*OdbcParameter param2 = new OdbcParameter(); 
+                param2.ParameterName = "@ColumnName";
+                param2.Value = columnname;*/
+
+                /*OdbcParameter param3 = new OdbcParameter();
+                param3.ParameterName = "@NewValue";
+                param3.Value = newvalue;*/
+
+                /*OdbcParameter param4 = new OdbcParameter();
+                param4.ParameterName = "@OldValue";
+                param4.Value = oldvalue;*/
+
+                // 3. add new parameter to command object
+                //cmd.Parameters.Add(param1);
+                //cmd.Parameters.Add(param2);
+                //cmd.Parameters.Add(param3);
+                //cmd.Parameters.Add(param4);
+
+
+                cmd.Parameters.Add("@NewValue", OdbcType.NVarChar).Value = newvalue;
+                cmd.Parameters.Add("@OldValue", OdbcType.NVarChar).Value = oldvalue;
+
+                cmd.ExecuteNonQuery();
+
+
+
+            }
+            finally
+            {
+
+                // 5. Close the connection
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+            }
+
         }
 
         public static void DeleteSQLServer()
@@ -278,11 +410,11 @@ namespace Project_Orn
                 //
 
                 // 2. define parameters used in command object
-                /*SqlParameter param1 = new SqlParameter();
+                /*OdbcParameter param1 = new OdbcParameter();
                 param1.ParameterName = "@TableName";
                 param1.Value = tablename;*/
 
-                /*SqlParameter param2 = new SqlParameter(); 
+                /*OdbcParameter param2 = new OdbcParameter(); 
                 param2.ParameterName = "@ColumnName";
                 param2.Value = columnname;*/
 
@@ -313,6 +445,7 @@ namespace Project_Orn
 
         public static void DeletePostGre()
         {
+            Console.WriteLine("Que voulez-vous supprimer ?");
             /*Console.WriteLine("Entrez le nom de la table");
             string tablename = Console.ReadLine();*/
             /*Console.WriteLine("Entrez le nom de la colonne");
@@ -323,7 +456,7 @@ namespace Project_Orn
 
             // 1. Instantiate the connection
             OdbcConnection conn = new OdbcConnection(
-                "Driver={PostgreSQL ODBC Driver(UNICODE)};Server=127.0.0.1;Port=5432;Database=orm;UID=mickaël;PWD=170514");
+                "Driver={PostgreSQL ODBC Driver(UNICODE)};Server=localhost;Port=5432;Database=orm;UID=mickaël;PWD=170514");
 
 
             try
@@ -332,25 +465,26 @@ namespace Project_Orn
                 conn.Open();
 
                 // 3. Pass the connection to a command object
-                OdbcCommand cmd = new OdbcCommand("delete from Customers where prenom = @PropertyName", conn);
+                OdbcCommand cmd = new OdbcCommand("delete from customers where prenom = ?", conn);
 
                 // 2. define parameters used in command object
-                /*SqlParameter param1 = new SqlParameter();
+                /*OdbcParameter param1 = new OdbcParameter();
                 param1.ParameterName = "@TableName";
                 param1.Value = tablename;*/
 
-                /*SqlParameter param2 = new SqlParameter(); 
+                /*OdbcParameter param2 = new OdbcParameter(); 
                 param2.ParameterName = "@ColumnName";
                 param2.Value = columnname;*/
 
-                OdbcParameter param3 = new OdbcParameter();
-                param3.ParameterName = "@PropertyName";
-                param3.Value = propertyname;
+                //OdbcParameter param3 = new OdbcParameter();
+                /*param3.ParameterName = "@PropertyName";
+                param3.Value = propertyname;*/
+                cmd.Parameters.Add("@PropertyName", OdbcType.NVarChar).Value = propertyname;
 
                 // 3. add new parameter to command object
                 //cmd.Parameters.Add(param1);
                 //cmd.Parameters.Add(param2);
-                cmd.Parameters.Add(param3);
+                //cmd.Parameters.Add(param3);
 
 
                 cmd.ExecuteNonQuery();

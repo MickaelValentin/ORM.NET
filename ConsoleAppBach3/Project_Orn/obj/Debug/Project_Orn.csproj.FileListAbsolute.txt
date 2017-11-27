@@ -9,3 +9,8 @@ C:\Users\MickaëlV\Documents\Visual Studio 2017\Projects\cours\cours\ConsoleAppB
 C:\Users\MickaëlV\Documents\Visual Studio 2017\Projects\cours\cours\ConsoleAppBach3\Project_Orn\obj\Debug\Project_Orn.csprojResolveAssemblyReference.cache
 C:\Users\MickaëlV\Documents\Visual Studio 2017\Projects\cours\cours\ConsoleAppBach3\Project_Orn\obj\Debug\Project_Orn.dll
 C:\Users\MickaëlV\Documents\Visual Studio 2017\Projects\cours\cours\ConsoleAppBach3\Project_Orn\obj\Debug\Project_Orn.pdb
+C:\Users\MickaëlV\Documents\GitHub\ORM.NET\ConsoleAppBach3\Project_Orn\bin\Debug\Project_Orn.dll
+C:\Users\MickaëlV\Documents\GitHub\ORM.NET\ConsoleAppBach3\Project_Orn\bin\Debug\Project_Orn.pdb
+C:\Users\MickaëlV\Documents\GitHub\ORM.NET\ConsoleAppBach3\Project_Orn\obj\Debug\Project_Orn.csprojResolveAssemblyReference.cache
+C:\Users\MickaëlV\Documents\GitHub\ORM.NET\ConsoleAppBach3\Project_Orn\obj\Debug\Project_Orn.dll
+C:\Users\MickaëlV\Documents\GitHub\ORM.NET\ConsoleAppBach3\Project_Orn\obj\Debug\Project_Orn.pdb
