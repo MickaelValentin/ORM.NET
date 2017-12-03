@@ -22,13 +22,12 @@ namespace ConsoleAppBach3
         static void Main(string[] args)
         {
 
-            //Class1.testSqlServer();
-            //Class1.DeleteSQLServer();
-            //Class1.PostGreConnexion();
-            //Class1.InsertPostGre();
-            Class1.UpdatePostGre();
-            //Class1.PostGreConnexion();
-            //Class1.DeletePostGre();
+            //PostGre.Select();
+            //PostGre.Insert();
+            //PostGre.Update();
+            PostGre.Delete();
+            //PostGre.CreateTable();
+            //PostGre.DropTable();
         
         }
 
