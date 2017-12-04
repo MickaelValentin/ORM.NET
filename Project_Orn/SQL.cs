@@ -23,7 +23,7 @@ namespace Project_Orn
                 conn.Open();
 
                 // Informe the user if it's a succed
-                Console.WriteLine("Connection établie, que souhaitez-vous faire ? \n 1 - Lire la base de donnée \n 2 - Insérer une valeure \n 3 - Modifier une valeure \n 4 - Supprimer une valeure\n 5 - Créer une table");
+                Console.WriteLine("Connection établie, que souhaitez-vous faire ? \n 1 - Lire la base de donnée \n 2 - Insérer une valeure \n 3 - Modifier une valeure \n 4 - Supprimer une valeure\n 5 - Créer une table\n 6 - Suppimer une table");
 
                 string choix = Console.ReadLine();
                 switch (choix.ToLower())
@@ -41,7 +41,10 @@ namespace Project_Orn
                         deleteSqlServer(conn);
                         break;
                     case "5":
-                        createTableSqlServer();
+                        createTableSqlServer(conn);
+                        break;
+                    case "6":
+                        deleteTableSqlServer(conn);
                         break;
                     default:
                         Console.WriteLine("Erreur dans le choix");
@@ -70,17 +73,36 @@ namespace Project_Orn
             }
         }
 
-        private void createTableSqlServer()
+        private void createTableSqlServer(SqlConnection conn)
         {
-            DataTable dt = new DataTable();
+            SqlCommand cmd = conn.CreateCommand();
+                    
+                cmd.CommandText =
+                    @" 
+                        BEGIN
+                        CREATE TABLE ormTableCreated (
+                          Id    integer PRIMARY KEY NOT NULL,
+                          Name  varchar(200) NOT NULL
+                        ); 
+                    END";
+                cmd.ExecuteNonQuery();
 
-            dt.TableName = "Test";
-            dt.Columns.Add("ID");
-            dt.Columns.Add("Name");
-
-            Console.WriteLine("Nouvelle table créée");
+            Console.WriteLine("Table créée");
         }
 
+        private void deleteTableSqlServer(SqlConnection conn)
+        {
+            SqlCommand cmd = conn.CreateCommand();
+
+            cmd.CommandText =
+                @" 
+                    BEGIN
+                    DROP TABLE ormTableCreated; 
+                END";
+            cmd.ExecuteNonQuery();
+
+            Console.WriteLine("Table supprimée");
+        }
 
         private static void readSqlServer(SqlConnection conn, SqlDataReader rdr)
         {
