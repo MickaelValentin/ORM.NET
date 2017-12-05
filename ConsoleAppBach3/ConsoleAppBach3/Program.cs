@@ -22,9 +22,8 @@ namespace ConsoleAppBach3
         static void Main(string[] args)
         {
 
-            //Config.testOracle();
-            Config.testPosgreSql();
-           
+            Class1.testSqlServer();
+        
         }
 
         private static void TPLinq()
