@@ -1,0 +1,7 @@
+C:\Users\Etienne\source\repos\OrnProject\OrnProject\bin\Debug\OrnProject.exe.config
+C:\Users\Etienne\source\repos\OrnProject\OrnProject\bin\Debug\OrnProject.exe
+C:\Users\Etienne\source\repos\OrnProject\OrnProject\bin\Debug\OrnProject.pdb
+C:\Users\Etienne\source\repos\OrnProject\OrnProject\obj\Debug\OrnProject.csprojResolveAssemblyReference.cache
+C:\Users\Etienne\source\repos\OrnProject\OrnProject\obj\Debug\OrnProject.csproj.CoreCompileInputs.cache
+C:\Users\Etienne\source\repos\OrnProject\OrnProject\obj\Debug\OrnProject.exe
+C:\Users\Etienne\source\repos\OrnProject\OrnProject\obj\Debug\OrnProject.pdb
