@@ -163,7 +163,7 @@ namespace Project_Orn
                 conn.Open();
 
                 // 3. Pass the connection to a command object
-                OdbcCommand cmd = new OdbcCommand("delete from customers where prenom = ?", conn);
+                OdbcCommand cmd = new OdbcCommand("delete from customers2 where surname = ?", conn);
 
                 cmd.Parameters.Add("@PropertyName", OdbcType.NVarChar).Value = propertyname;
 
@@ -247,7 +247,7 @@ namespace Project_Orn
                 conn.Open();
 
                 // 3. Pass the connection to a command object
-                OdbcCommand cmd = new OdbcCommand("DROP TABLE ?", conn);
+                OdbcCommand cmd = new OdbcCommand("DROP TABLE IF EXISTS ?", conn);
 
                 cmd.Parameters.Add("@TableName", OdbcType.NVarChar).Value = tablename;
 
