@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+    <hibernate-configuration>
+    	<session-factory>
+    	<!-- driver jdbc  -->
+    		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+    		
+    		<!--  chaine de connexion -->
+    	<property name="connection.url">jdbc:mysql://localhost/mastere?autoReconnect=true</property>
+    	<property name="connection.username">root</property>
+    	<property name="connection.password"></property>
+    	
+    	<!-- pool -->
+    	<property name="connection.pool_size">10</property>
+    	
+    	<!-- Dialect SQL -->
+    	<property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+    	
+    	<!-- persistence -->
+    	<property name="current_session_context_class">thread</property>
+    	
+    	<!-- afficher le sql -->
+    	<property name="show_sql">true</property>
+    	
+    	<!--  génération auto de la base -->
+    	<!-- <property name="hibernate.hbm2ddl.auto">update</property>-->
+    	
+    	<mapping class="com.mastere.metier.Utilisateur"/>
+    	<mapping class="com.mastere.metier.Groupe"/>
+    	
+    	</session-factory>
+    	
+    	
+    </hibernate-configuration>
