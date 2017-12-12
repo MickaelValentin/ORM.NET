@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 using OrnProject;
 using System.Data.SqlClient;
 using System.Data.Odbc;
-
+using System.Data;
 
 namespace OrnProject
 {
     class CSD_ODB
     {
-        public static void createSqlTable()
+        public static void createTable()
         {
-            OdbcConnection conn = new OdbcConnection(
+            OdbcConnection connexion = new OdbcConnection(
 
 
             "DRIVER={MySQL ODBC 5.3 ANSI Driver};" +
@@ -23,11 +23,13 @@ namespace OrnProject
                    "USER=root;");
 
             Console.WriteLine("Créer ->");
-            Console.WriteLine("Enter your table name");
+            Console.WriteLine("Table : ?");
             string nomTable = Console.ReadLine();
-            Console.WriteLine($"Entrer le nombre de colonnes de la table {nomTable}");
+
+            Console.WriteLine($"Nombre de colonnes table {nomTable} : ?");
             string nombreColonne = Console.ReadLine();
             int nombre = Int32.Parse(nombreColonne);
+
             string nomCol;
             string nomAllCol = "";
             string type;
@@ -52,18 +54,16 @@ namespace OrnProject
                 }
                 else
                 {
-                    nomAllCol = $"{nomAllCol},{nomCol} {type}({taille})";
+                    nomAllCol = $"{nomAllCol},{nomCol} {type}({taille})";   //On concatène les chaînes
                 }
 
             }
 
             try
             {
-                // 2. Open the connection
-                conn.Open();
+                connexion.Open();   //On ouvre la connexion
 
-                //OdbcCommand cmd = new OdbcCommand($"CREATE TABLE {nomTable}()", conn);
-                OdbcCommand cmd = new OdbcCommand($"CREATE TABLE {nomTable} ({nomAllCol})", conn);
+                OdbcCommand cmd = new OdbcCommand($"CREATE TABLE {nomTable} ({nomAllCol})", connexion);
                 cmd.ExecuteNonQuery();
 
                 Console.WriteLine("La table à bien été créer");
@@ -73,16 +73,16 @@ namespace OrnProject
             {
 
 
-                if (conn != null)
+                if (connexion != null)
                 {
-                    conn.Close();
+                    connexion.Close();  //On ferme la connexion
                 }
             }
         }
 
         public static void selectTable()
         {
-            OdbcConnection conn = new OdbcConnection(
+            OdbcConnection connexion = new OdbcConnection(
 
 
            "DRIVER={MySQL ODBC 5.3 ANSI Driver};" +
@@ -93,8 +93,7 @@ namespace OrnProject
             Console.WriteLine("Rechercher ->");
             try
             {
-                // 2. Open the connection
-                conn.Open();
+                connexion.Open();   //On ouvre la connexion
 
                 Console.WriteLine("Table : ?");
                 string nomTable = Console.ReadLine();
@@ -102,8 +101,7 @@ namespace OrnProject
                 Console.WriteLine("Colonne : ? (* pour tout lister)");
                 string nomColonne = Console.ReadLine();
 
-                //OdbcCommand cmd = new OdbcCommand($"CREATE TABLE {nomTable}()", conn);
-                OdbcCommand cmd = new OdbcCommand($"SELECT {nomColonne} FROM {nomTable}", conn);
+                OdbcCommand cmd = new OdbcCommand($"SELECT {nomColonne} FROM {nomTable}", connexion);
                 OdbcDataReader reader = cmd.ExecuteReader();
 
                 while (reader.Read())
@@ -117,16 +115,16 @@ namespace OrnProject
             {
 
 
-                if (conn != null)
+                if (connexion != null)
                 {
-                    conn.Close();
+                    connexion.Close();  //On ferme la connexion
                 }
             }
         }
 
         public static void dropTable()
         {
-            OdbcConnection conn = new OdbcConnection(
+            OdbcConnection connexion = new OdbcConnection(
 
 
            "DRIVER={MySQL ODBC 5.3 ANSI Driver};" +
@@ -137,8 +135,7 @@ namespace OrnProject
             Console.WriteLine("Supprimer ->");
             try
             {
-                // 2. Open the connection
-                conn.Open();
+                connexion.Open();    //On ouvre la connexion
 
                 Console.WriteLine("1 - Supprimer une table");
                 Console.WriteLine("2 - Supprimer une colonne");
@@ -152,14 +149,14 @@ namespace OrnProject
                 switch (caseSwitch)
                 {
                     case 1:
-                        OdbcCommand cmdTable = new OdbcCommand($"DROP TABLE IF EXISTS {nomTable}", conn);
+                        OdbcCommand cmdTable = new OdbcCommand($"DROP TABLE IF EXISTS {nomTable}", connexion);   //Objet OdbcCommand avec requête pour drop la table en paramètre
                         cmdTable.ExecuteNonQuery();
                         break;
                     case 2:
                         Console.WriteLine("Colonne : ?");
                         string nomColonne = Console.ReadLine();
 
-                        OdbcCommand cmdCol = new OdbcCommand($"ALTER TABLE {nomTable} DROP COLUMN {nomColonne}", conn);
+                        OdbcCommand cmdCol = new OdbcCommand($"ALTER TABLE {nomTable} DROP COLUMN {nomColonne}", connexion); ////Objet OdbcCommand avec requête pour drop une colonne de la table en paramètre
                         cmdCol.ExecuteNonQuery();
                         break;
                     default:
@@ -167,30 +164,87 @@ namespace OrnProject
                         break;
                 }
 
-                
-
-                
-                //cmd.ExecuteNonQuery();
-
                 Console.WriteLine($"La table {nomTable} à bien été suprimer");
-                Console.WriteLine("Appuyer sur une touche pour continuer");
-                Console.ReadLine();
+            }
+
+            finally
+            {
+
+                if (connexion != null)
+                {
+                    connexion.Close();   //On ferme la connexion
+                }
+            }
+        }
+
+        public static void delete()
+        {
+            OdbcConnection connexion = new OdbcConnection(
+
+
+           "DRIVER={MySQL ODBC 5.3 ANSI Driver};" +
+                  "SERVER=localhost;" +
+                  "DATABASE=orm;" +
+                  "USER=root;");
+
+            Console.WriteLine("Supprimer ->");
+            try
+            {
+                connexion.Open();    //On ouvre la connexion
+
+                string nomCol;
+                string valeur;
+                string colonneValeur = "";
+
+                Console.WriteLine("Table : ?");
+                string nomTable = Console.ReadLine();
+
+                OdbcCommand testtt = new OdbcCommand($"SELECT * FROM {nomTable}", connexion);    //On crée un objet OdbcCommand avec une requête en paramètre pour récupérer les informations
+                OdbcDataReader datareader = testtt.ExecuteReader();
+
+                DataTable test = new DataTable();   //On crée un objet DataTable
+
+                test.Load(datareader);  //On charge le résultat de la requête
+
+                int nombreCol = test.Columns.Count; //On récupère le nombre de colonnes
+
+                for (int i = 0; i < nombreCol; i++)
+                {
+                    Console.WriteLine($"Colonne {i + 1} : ");
+                    nomCol = Console.ReadLine();
+
+                    Console.WriteLine($"Valeur colonne {i+1} : ?");
+                    valeur = Console.ReadLine();
+
+                    if (i == 0)
+                    {
+                        colonneValeur = $"{nomCol} = '{valeur}'";
+                    }
+                    else
+                    {
+                        colonneValeur = $"{colonneValeur} AND {nomCol} = '{valeur}'";    //On concatène les chaînes
+                    }
+                }
+
+                OdbcCommand cmd = new OdbcCommand($"DELETE FROM {nomTable} WHERE {colonneValeur} ", connexion);  //On crée un objet OdbcCommand avec la nouvelle requête
+                cmd.ExecuteNonQuery();
+
             }
 
             finally
             {
 
 
-                if (conn != null)
+                if (connexion != null)
                 {
-                    conn.Close();
+                    connexion.Close();  //On ferme la connexion
                 }
             }
         }
 
         public static void insert()
         {
-            OdbcConnection conn = new OdbcConnection(
+            OdbcConnection connexion = new OdbcConnection(
 
 
            "DRIVER={MySQL ODBC 5.3 ANSI Driver};" +
@@ -203,23 +257,26 @@ namespace OrnProject
             string nomTable;
             string nomColonne;
             string valeur;
-            string nombreColonne;
-            int nombre;
             string allColonne = "";
             string allValeur = "";
 
             try
             {
-                conn.Open();
+                connexion.Open();
 
                 Console.WriteLine("Table : ?");
                 nomTable = Console.ReadLine();
 
-                Console.WriteLine("Nombre colonne : ?");
-                nombreColonne = Console.ReadLine();
-                nombre = Int32.Parse(nombreColonne);
+                OdbcCommand testtt = new OdbcCommand($"SELECT * FROM {nomTable}", connexion);    //On crée un objet OdbcCommand avec une requête en paramètre pour récupérer les informations
+                OdbcDataReader datareader = testtt.ExecuteReader();
 
-                for (int i = 0; i < nombre; i++)
+                DataTable dataTable = new DataTable();   //On crée un objet DataTable
+
+                dataTable.Load(datareader);  //On charge le résultat de la requête
+
+                int nombreCol = dataTable.Columns.Count; //On récupère le nombre de colonnes
+
+                for (int i = 0; i < nombreCol; i++)
                 {
                     Console.WriteLine($"Nom colonne {i + 1} : ?");
                     nomColonne = Console.ReadLine();
@@ -230,35 +287,103 @@ namespace OrnProject
                     if (i == 0)
                     {
                         allColonne = nomColonne;
-                        allValeur = valeur;
+                        allValeur = $"'{valeur}'";
                     }
                     else
                     {
-                        allColonne = $"{allColonne}, {nomColonne}";
-                        allValeur = $"{allValeur}, {valeur}";
+                        allColonne = $"{allColonne}, {nomColonne}";     //On concatène les chaînes
+                        allValeur = $"{allValeur}, '{valeur}'";
                     }
-                    
-                    
+
+
                 }
 
-                OdbcCommand cmd = new OdbcCommand($"INSERT INTO {nomTable} ({allColonne}) VALUES ({allValeur})", conn);
-                cmd.ExecuteReader();
+                OdbcCommand cmd = new OdbcCommand($"INSERT INTO {nomTable} ({allColonne}) VALUES ({allValeur})", connexion);    //On crée un objet OdbcCommand avec la requête en paramètre
+                cmd.ExecuteNonQuery();
 
-                
+
             }
 
             finally
             {
 
 
-                if (conn != null)
+                if (connexion != null)
                 {
-                    conn.Close();
+                    connexion.Close();  //On ferme la connexion
                 }
             }
         }
 
+        public static void update()
+        {
+            OdbcConnection connexion = new OdbcConnection(
+
+
+           "DRIVER={MySQL ODBC 5.3 ANSI Driver};" +
+                  "SERVER=localhost;" +
+                  "DATABASE=orm;" +
+                  "USER=root;");
+
+            Console.WriteLine("Update ->");
+
+            string nomColonne;
+            string valeur;
+            string colonneValeur = "";
+
+            try
+            {
+                connexion.Open();
+
+                Console.WriteLine("Table : ?");
+                string nomTable = Console.ReadLine();
+
+                Console.WriteLine("Nombre de valeur à update : ?");
+                string nombreValeur = Console.ReadLine();
+                int nombre = Int32.Parse(nombreValeur);
+
+                for (int i = 0; i < nombre; i++)
+                {
+                    Console.WriteLine($"Colonne à modifier : ?");
+                    nomColonne = Console.ReadLine();
+
+                    Console.WriteLine($"Nouvelle valeur : ?");
+                    valeur = Console.ReadLine();
+
+                    if (i == 0)
+                    {
+                        colonneValeur = $"{nomColonne} = '{valeur}'";
+                    }
+                    else
+                    {
+                        colonneValeur = $"{colonneValeur}, {nomColonne} = '{valeur}'";    //On concatène les chaînes
+                    }
+                }
+
+                Console.WriteLine("Colonne condition : ?");
+                string colCondition = Console.ReadLine();
+
+                Console.WriteLine("Condition (ID): ?");
+                string condition = Console.ReadLine();
+
+                OdbcCommand cmd = new OdbcCommand($"UPDATE {nomTable} SET {colonneValeur} WHERE {colCondition} = {condition}", connexion);    //On crée un objet OdbcCommand avec la requête en paramètre
+                cmd.ExecuteNonQuery();
+
+
+            }
+
+            finally
+            {
+
+
+                if (connexion != null)
+                {
+                    connexion.Close();  //On ferme la connexion
+                }
+            }
         }
+
+    }
 }
 
 
