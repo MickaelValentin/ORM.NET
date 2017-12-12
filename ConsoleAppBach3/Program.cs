@@ -28,7 +28,7 @@ namespace ConsoleAppBach3
                 {
                     case "1":
                         Console.WriteLine("SQL");
-                        Orm.testSqlServer();
+                        Orm.sqlServer();
                         break;
                     case "2":
                         Console.WriteLine("ORACLE");

@@ -75,30 +75,33 @@ namespace Project_Orn
 
         private void createTableSqlServer(SqlConnection conn)
         {
-            SqlCommand cmd = conn.CreateCommand();
-                    
-                cmd.CommandText =
-                    @" 
-                        BEGIN
-                        CREATE TABLE ormTableCreated (
-                          Id    integer PRIMARY KEY NOT NULL,
-                          Name  varchar(200) NOT NULL
-                        ); 
-                    END";
-                cmd.ExecuteNonQuery();
+            Console.WriteLine("Quelle nom de table voulez-vous insérer ?");
+            String tableName = Console.ReadLine();
+            
+            string createTable = @" create table [" + tableName + "] ( Id integer PRIMARY KEY NOT NULL, Name  varchar(200) NOT NULL ) ";
+
+            SqlCommand cmd = new SqlCommand(createTable);
+
+            cmd.Connection = conn;
+
+            cmd.ExecuteNonQuery();
 
             Console.WriteLine("Table créée");
+            
         }
 
         private void deleteTableSqlServer(SqlConnection conn)
         {
-            SqlCommand cmd = conn.CreateCommand();
 
-            cmd.CommandText =
-                @" 
-                    BEGIN
-                    DROP TABLE ormTableCreated; 
-                END";
+            Console.WriteLine("Quelle nom de table voulez-vous supprimer ?");
+            String tableName = Console.ReadLine();
+            
+            string deleteTable = @" drop table [" + tableName + "]";
+
+            SqlCommand cmd = new SqlCommand(deleteTable);
+
+            cmd.Connection = conn;
+
             cmd.ExecuteNonQuery();
 
             Console.WriteLine("Table supprimée");
