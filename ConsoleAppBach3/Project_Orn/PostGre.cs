@@ -197,18 +197,14 @@ namespace Project_Orn
             OdbcConnection conn = new OdbcConnection(
                 "Driver={PostgreSQL ODBC Driver(UNICODE)};Server=localhost;Port=5432;Database=orm;UID=mickaël;PWD=170514");
 
-
+            string req = $"create table {tablename} ( {columnname} {columntype} )";
             try
             {
                 // 2. Open the connection
                 conn.Open();
 
                 // 3. Pass the connection to a command object
-                OdbcCommand cmd = new OdbcCommand("create table ? ( ? ? )", conn);
-
-                cmd.Parameters.Add("@TableName", OdbcType.NVarChar).Value = tablename;
-                cmd.Parameters.Add("@ColumnName", OdbcType.NVarChar).Value = columnname;
-                cmd.Parameters.Add("@ColumnType", OdbcType.NVarChar).Value = columntype;
+                OdbcCommand cmd = new OdbcCommand(req, conn);
 
 
                 cmd.ExecuteNonQuery();
@@ -231,6 +227,7 @@ namespace Project_Orn
         public static void DropTable()
         {
             Console.WriteLine("Entrez le nom de la table à supprimer");
+
             string tablename = Console.ReadLine();
 
 
@@ -238,18 +235,14 @@ namespace Project_Orn
             OdbcConnection conn = new OdbcConnection(
                 "Driver={PostgreSQL ODBC Driver(UNICODE)};Server=localhost;Port=5432;Database=orm;UID=mickaël;PWD=170514");
 
-
+            string req = $"DROP TABLE IF EXISTS {tablename}";
             try
             {
                 // 2. Open the connection
                 conn.Open();
 
                 // 3. Pass the connection to a command object
-                OdbcCommand cmd = new OdbcCommand("DROP TABLE IF EXISTS ?", conn);
-
-                cmd.Parameters.Add("@TableName", OdbcType.NVarChar).Value = tablename;
-
-
+                OdbcCommand cmd = new OdbcCommand(req, conn);
 
                 cmd.ExecuteNonQuery();
 
