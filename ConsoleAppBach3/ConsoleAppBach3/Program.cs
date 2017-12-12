@@ -25,8 +25,8 @@ namespace ConsoleAppBach3
             //PostGre.Select();
             //PostGre.Insert();
             //PostGre.Update();
-            PostGre.Delete();
-            //PostGre.CreateTable();
+            //PostGre.Delete();
+            PostGre.CreateTable();
             //PostGre.DropTable();
         
         }
