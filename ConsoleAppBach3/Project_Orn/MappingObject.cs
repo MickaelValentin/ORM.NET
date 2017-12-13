@@ -13,7 +13,10 @@ namespace Project_Orn
 
 
         public string ObjectName { get; set; }
-        public Dictionary<string, string> PropertyInfos = new Dictionary<string, string>();
+
+        public List<PropertyAttributes> PropertiesAttributes { get; set; }
+
+
 
 
 

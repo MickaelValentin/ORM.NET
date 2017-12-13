@@ -43,6 +43,7 @@
     <Compile Include="MySQL.cs" />
     <Compile Include="PostGre.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyAttributes.cs" />
     <Compile Include="SQLServer.cs" />
     <Compile Include="MappingObject.cs" />
   </ItemGroup>

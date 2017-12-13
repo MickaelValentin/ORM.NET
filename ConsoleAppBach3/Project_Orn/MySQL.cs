@@ -11,6 +11,47 @@ namespace Project_Orn
 {
     public static class MySQL
     {
+        public static void  CreateTableNextGen<T>(T obj)
+        {
+            MappingObject objectMapping = new MappingObject();
+            objectMapping = MySQL.GetTypeOfPro(obj);
+            OdbcConnection conn = new OdbcConnection(
+                "DRIVER={MySQL ODBC 5.3 ANSI Driver};" +
+                "SERVER=localhost;" +
+                "DATABASE=test;" +
+                "USER=root;" +
+                "PASSWORD=root");
+
+            string req = $"CREATE TABLE {objectMapping.ObjectName}(";
+            for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
+            {
+
+                if (i == objectMapping.PropertiesAttributes.Count() - 1)
+                {
+                    req += $"{objectMapping.PropertiesAttributes[i].NameInfo} {objectMapping.PropertiesAttributes[i].TypeInfo}";
+                }
+                else
+                {
+                    req += $"{objectMapping.PropertiesAttributes[i].NameInfo} {objectMapping.PropertiesAttributes[i].TypeInfo},";
+                }
+
+            }
+            req += ")";
+
+            try
+            {
+                conn.Open();
+                OdbcCommand cmd = new OdbcCommand(req, conn);
+                cmd.ExecuteNonQuery();
+            }
+            finally
+            {
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+            }
+        }
         public static void createSqlTable()
         {
             OdbcConnection conn = new OdbcConnection(
@@ -262,49 +303,55 @@ namespace Project_Orn
         {
             MappingObject mappingObject = new MappingObject();
             Console.WriteLine(c.GetType().Name);
-
-            mappingObject.ObjectName = c.GetType().ToString();
+            mappingObject.ObjectName = c.GetType().Name;
+            mappingObject.PropertiesAttributes = new List<PropertyAttributes>();
             foreach (PropertyInfo propertyInfoObject in c.GetType().GetProperties())
             {
+                PropertyAttributes propertyAttributes = new PropertyAttributes
+                {
+                    NameInfo = propertyInfoObject.Name,
+
+                    ValueInfo = propertyInfoObject.GetValue(c).ToString()
+                };
 
                 switch (propertyInfoObject.PropertyType.Name.ToString())
                 {
                     case "Int32":
                         {
-                            mappingObject.PropertyInfos.Add(key: propertyInfoObject.Name, value: "INT");
+                            propertyAttributes.TypeInfo = "INT";
                             break;
                         }
                     case "String":
                         {
-                            mappingObject.PropertyInfos.Add(key: propertyInfoObject.Name, value: "MEDIUMTEXT");
+                            propertyAttributes.TypeInfo = "MEDIUMTEXT";
                             break;
                         }
                     case "DateTime":
                         {
-                            mappingObject.PropertyInfos.Add(key: propertyInfoObject.Name, value: "DATETIME");
+                            propertyAttributes.TypeInfo = "DATETIME";
                             break;
                         }
                     case "Boolean":
                         {
-                            mappingObject.PropertyInfos.Add(key: propertyInfoObject.Name, value: "BIT");
+                            propertyAttributes.TypeInfo = "BIT";
                             break;
                         }
                     case "Single":
                         {
-                            mappingObject.PropertyInfos.Add(key: propertyInfoObject.Name, value: "FLOAT");
+                            propertyAttributes.TypeInfo = "FLOAT";
                             break;
                         }
                     case "Double":
                         {
-                            mappingObject.PropertyInfos.Add(key: propertyInfoObject.Name, value: "DOUBLE");
+                            propertyAttributes.TypeInfo = "DOUBLE";
                             break;
                         }
                 }
-                //String propertyName = propertyInfoObject.Name;
-                //Console.WriteLine("La valeur est {0}",propertyName);
-                //String propertytype = propertyInfoObject.PropertyType.Name.ToString();
-                // Console.WriteLine("La valeur est {0}", propertyInfoObject.PropertyType.Name.ToString());
+
+                mappingObject.PropertiesAttributes.Add(propertyAttributes);
             }
+           
+
 
             return mappingObject;
 

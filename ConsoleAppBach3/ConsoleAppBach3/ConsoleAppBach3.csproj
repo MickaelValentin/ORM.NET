@@ -48,12 +48,19 @@
     <Compile Include="Metier\Comparateur\ComparateurContactDate.cs" />
     <Compile Include="Metier\Comparateur\ComparateurGeneric.cs" />
     <Compile Include="Metier\Contact.cs" />
+    <Compile Include="Metier\Voiture.cs" />
     <Compile Include="Outils\Extension.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Project_Orn\Project_Orn.csproj">
+      <Project>{6fde6069-fa96-40ce-aaeb-f838c60c5314}</Project>
+      <Name>Project_Orn</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

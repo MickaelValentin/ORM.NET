@@ -269,7 +269,7 @@ namespace Project_Orn
 
         }
 
-        public static MappingObject GetTypeOfPro<T>(T c)
+    /*    public static MappingObject GetTypeOfPro<T>(T c)
         {
             MappingObject mappingObject = new MappingObject();
             Console.WriteLine(c.GetType().Name);
@@ -320,6 +320,7 @@ namespace Project_Orn
             return mappingObject;
 
         }
+        */
     }
 
 }
