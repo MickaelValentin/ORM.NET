@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Project_Orn
 {
-     public  class  SQLServer
+    class SQLServer
     {
-        public void Connection()
+        public void connection()
         {
             // Instantiate the connection
             SqlConnection conn = new SqlConnection("Data Source=(local);Initial Catalog=orm;User ID=thomas;Password=thomas");

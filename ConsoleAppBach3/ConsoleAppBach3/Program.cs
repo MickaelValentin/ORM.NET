@@ -7,9 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using ConsoleAppBach3.Outils;
 using System.Xml.Linq;
-using Project_Orn;
-
-
 
 namespace ConsoleAppBach3
 {
@@ -21,9 +18,53 @@ namespace ConsoleAppBach3
 
         static void Main(string[] args)
         {
+           
+            while (true)
+            {
+                afficherMenu();
+                Console.WriteLine("Votre choix :");
+                string choix = Console.ReadLine();
+                switch (choix.ToLower())
+                {
+                    case "1":
+                        ajouterContact();
+                        break;
+                    case "2":
+                        afficherContact();
+                        break;
+                    case "3":
+                        trierContacts();
+                        break;
+                    case "4":
+                        trierContactsParDate();
+                        break;
+                    case "5":
+                            triGeneric();
+                        break;
+                    case "6":
+                        extension();
+                        break;
+                    case "7":
+                        rechercheContactParNom();
+                        break;
+                    case "8":
+                        rechercheContactParDate();
+                        break;
+                    case "9":
+                        linq();
+                        break;
+                    case "10":
+                        TPLinq();
+                        break;
+                    case "q":
+                        return;
 
-            Class1.testSqlServer();
-        
+                    default:
+                        Console.WriteLine("Erreur dans le choix");
+                        break;
+                }
+            }
+
         }
 
         private static void TPLinq()

@@ -1,3 +1,4 @@
+﻿
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Project_Orn
 {
-  public class  MappingObject
+    public class MappingObject
     {
 
 
-        public string ObjectName { get;  set; }
-        public Dictionary<string, string> PropertyInfos  = new Dictionary<string, string>();
+        public string ObjectName { get; set; }
+        public Dictionary<string, string> PropertyInfos = new Dictionary<string, string>();
 
 
 

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Odbc;
@@ -262,7 +262,7 @@ namespace Project_Orn
         {
             MappingObject mappingObject = new MappingObject();
             Console.WriteLine(c.GetType().Name);
-            
+
             mappingObject.ObjectName = c.GetType().ToString();
             foreach (PropertyInfo propertyInfoObject in c.GetType().GetProperties())
             {
@@ -303,12 +303,12 @@ namespace Project_Orn
                 //String propertyName = propertyInfoObject.Name;
                 //Console.WriteLine("La valeur est {0}",propertyName);
                 //String propertytype = propertyInfoObject.PropertyType.Name.ToString();
-               // Console.WriteLine("La valeur est {0}", propertyInfoObject.PropertyType.Name.ToString());
+                // Console.WriteLine("La valeur est {0}", propertyInfoObject.PropertyType.Name.ToString());
             }
-           
+
             return mappingObject;
 
         }
-      
+
     }
 }

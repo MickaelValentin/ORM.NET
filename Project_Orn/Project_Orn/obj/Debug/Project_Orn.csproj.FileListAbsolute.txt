@@ -1,6 +1,0 @@
-\\vmware-host\Shared Folders\Downloads\ORM.NET\ConsoleAppBach3\Project_Orn\bin\Debug\Project_Orn.dll
-\\vmware-host\Shared Folders\Downloads\ORM.NET\ConsoleAppBach3\Project_Orn\bin\Debug\Project_Orn.pdb
-\\vmware-host\Shared Folders\Downloads\ORM.NET\ConsoleAppBach3\Project_Orn\obj\Debug\Project_Orn.csprojResolveAssemblyReference.cache
-\\vmware-host\Shared Folders\Downloads\ORM.NET\ConsoleAppBach3\Project_Orn\obj\Debug\Project_Orn.csproj.CoreCompileInputs.cache
-\\vmware-host\Shared Folders\Downloads\ORM.NET\ConsoleAppBach3\Project_Orn\obj\Debug\Project_Orn.dll
-\\vmware-host\Shared Folders\Downloads\ORM.NET\ConsoleAppBach3\Project_Orn\obj\Debug\Project_Orn.pdb

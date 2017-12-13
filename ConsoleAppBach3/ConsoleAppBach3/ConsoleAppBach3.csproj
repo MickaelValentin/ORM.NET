@@ -55,11 +55,5 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Project_Orn\Project_Orn.csproj">
-      <Project>{03ddf8a1-153a-4974-8028-1bd83b1e75b5}</Project>
-      <Name>Project_Orn</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

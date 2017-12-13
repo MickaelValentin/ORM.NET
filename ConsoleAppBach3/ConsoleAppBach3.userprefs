@@ -1,0 +1,17 @@
+﻿<Properties StartupConfiguration="{82F91C03-8511-4368-93BE-3CA67B34B80D}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ConsoleAppBach3/Program.cs">
+    <Files>
+      <File FileName="Project_Orn/MappingObject.cs" Line="21" Column="2" />
+      <File FileName="Project_Orn/MySQL.cs" Line="286" Column="22" />
+      <File FileName="Project_Orn/PostGre.cs" Line="326" Column="1" />
+      <File FileName="ConsoleAppBach3/Program.cs" Line="27" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.ConsoleAppBach3 PreferredExecutionTarget="MonoDevelop.Default" />
+  <MultiItemStartupConfigurations />
+</Properties>
