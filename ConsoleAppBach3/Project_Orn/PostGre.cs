@@ -43,6 +43,11 @@ namespace Project_Orn
                 Console.ReadLine();
 
             }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Erreur : {e.Message}");
+                Console.ReadLine();
+            }
             finally
             {
                 // close the reader
@@ -88,6 +93,11 @@ namespace Project_Orn
 
 
             }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Erreur : {e.Message}");
+                Console.ReadLine();
+            }
             finally
             {
 
@@ -131,6 +141,11 @@ namespace Project_Orn
 
 
             }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Erreur : {e.Message}");
+                Console.ReadLine();
+            }
             finally
             {
 
@@ -170,6 +185,11 @@ namespace Project_Orn
 
 
 
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Erreur : {e.Message}");
+                Console.ReadLine();
             }
             finally
             {
@@ -212,6 +232,11 @@ namespace Project_Orn
 
 
             }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Erreur : {e.Message}");
+                Console.ReadLine();
+            }
             finally
             {
 
@@ -248,6 +273,11 @@ namespace Project_Orn
 
 
 
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Erreur : {e.Message}");
+                Console.ReadLine();
             }
             finally
             {
