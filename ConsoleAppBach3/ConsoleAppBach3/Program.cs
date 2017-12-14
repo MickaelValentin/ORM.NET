@@ -20,13 +20,15 @@ namespace ConsoleAppBach3
 
         static void Main(string[] args)
         {
-            Voiture ford = new Voiture();
-            ford.Brand = "Ford";
-            ford.CreateDate = new DateTime();
-            ford.Distance = 100454356578;
-            ford.Power = 4;
-            ford.Sizecar = 5.25;
-            ford.Isitok = true;
+            Voiture ford = new Voiture
+            {
+                Brand = "Ford",
+                CreateDate = new DateTime(),
+                Distance = 100454356578,
+                Power = 4,
+                Sizecar = 5.25,
+                Isitok = true
+            };
 
             MySQL.CreateTableNextGen(ford);
             MySQL.InsertNextGen(ford);
@@ -44,8 +46,11 @@ namespace ConsoleAppBach3
 
             }
             Console.ReadKey();
-            MySQL.DeleteElemetFromTableNextGen("Brand", "Ford", new Voiture());
-            MySQL.DropTableNextGen(new Voiture());
+          //  MySQL.DeleteElemetFromTableNextGen("Brand", "Ford", new Voiture());
+            ford.Power = 250;
+            MySQL.UpdateElementNextGen(4, ford);
+            Console.ReadKey();
+        //    MySQL.DropTableNextGen(new Voiture());
 
             /*   
                 while (true)
