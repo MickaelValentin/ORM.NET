@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Odbc;
+
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -11,47 +13,7 @@ namespace Project_Orn
 {
     public static class MySQL
     {
-        public static void  CreateTableNextGen<T>(T obj)
-        {
-            MappingObject objectMapping = new MappingObject();
-            objectMapping = MySQL.GetTypeOfPro(obj);
-            OdbcConnection conn = new OdbcConnection(
-                "DRIVER={MySQL ODBC 5.3 ANSI Driver};" +
-                "SERVER=localhost;" +
-                "DATABASE=test;" +
-                "USER=root;" +
-                "PASSWORD=root");
 
-            string req = $"CREATE TABLE {objectMapping.ObjectName}(";
-            for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
-            {
-
-                if (i == objectMapping.PropertiesAttributes.Count() - 1)
-                {
-                    req += $"{objectMapping.PropertiesAttributes[i].NameInfo} {objectMapping.PropertiesAttributes[i].TypeInfo}";
-                }
-                else
-                {
-                    req += $"{objectMapping.PropertiesAttributes[i].NameInfo} {objectMapping.PropertiesAttributes[i].TypeInfo},";
-                }
-
-            }
-            req += ")";
-
-            try
-            {
-                conn.Open();
-                OdbcCommand cmd = new OdbcCommand(req, conn);
-                cmd.ExecuteNonQuery();
-            }
-            finally
-            {
-                if (conn != null)
-                {
-                    conn.Close();
-                }
-            }
-        }
         public static void createSqlTable()
         {
             OdbcConnection conn = new OdbcConnection(
@@ -298,6 +260,174 @@ namespace Project_Orn
             }
         }
 
+        public static void InsertNextGen<T>(T obj)
+        {
+            MappingObject objectMapping = new MappingObject();
+            objectMapping = MySQL.GetTypeOfPro(obj);
+            OdbcConnection conn = new OdbcConnection(
+                "DRIVER={MySQL ODBC 5.3 ANSI Driver};" +
+                "SERVER=localhost;" +
+                "DATABASE=test;" +
+                "USER=root;" +
+                "PASSWORD=root");
+
+            string req = $" INSERT INTO {objectMapping.ObjectName} VALUES(NULL,";
+            for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
+            {
+                if (i == objectMapping.PropertiesAttributes.Count() - 1)
+                {
+                    req += "?";
+                }
+                else
+                {
+                    req += "?,";
+                }
+            }
+            req += ")";
+
+            OdbcCommand qureyToInsert = new OdbcCommand(req, conn);
+            for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
+            {
+                PropertyAttributes infoFormapping = objectMapping.PropertiesAttributes[i];
+                qureyToInsert.Parameters.AddWithValue($"{infoFormapping.NameInfo}", infoFormapping.ValueInfo);
+            }
+            try
+            {
+                conn.Open();
+
+                //  Prepare command not supported in ODBC
+                qureyToInsert.Prepare();
+                qureyToInsert.ExecuteNonQuery();
+                //  Data to be inserted
+            }
+            finally
+            {
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public static void CreateTableNextGen<T>(T obj)
+        {
+            MappingObject objectMapping = new MappingObject();
+            objectMapping = GetTypeOfPro(obj);
+            OdbcConnection conn = new OdbcConnection(
+                "DRIVER={MySQL ODBC 5.3 ANSI Driver};" +
+                "SERVER=localhost;" +
+                "DATABASE=test;" +
+                "USER=root;" +
+                "PASSWORD=root");
+
+            string req = $"CREATE TABLE IF NOT EXISTS {objectMapping.ObjectName}(ID int NOT NULL AUTO_INCREMENT,";
+            for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
+            {
+                req += $"{objectMapping.PropertiesAttributes[i].NameInfo} {objectMapping.PropertiesAttributes[i].TypeInfo},";
+            }
+            req += "PRIMARY KEY(ID))";
+
+            try
+            {
+                conn.Open();
+                OdbcCommand cmd = new OdbcCommand(req, conn);
+                cmd.ExecuteNonQuery();
+            }
+            finally
+            {
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public static List<T> SelectTableNextGen<T>(string column,string value ,T table)
+        {
+
+            OdbcConnection conn = new OdbcConnection(
+                "DRIVER={MySQL ODBC 5.3 ANSI Driver};" +
+                "SERVER=localhost;" +
+                "DATABASE=test;" +
+                "USER=root;" +
+                "PASSWORD=root");
+            
+
+                string req;
+            if (table.GetType().Name == null)
+            {
+                Console.WriteLine("obj not found");
+                return null;
+            }
+            bool isAProperty = false;
+            foreach (PropertyInfo item in table.GetType().GetProperties())
+            {
+                if (column.Equals(item.Name))
+                {
+                    isAProperty = true;
+                    break;
+                }
+
+            }
+            if (isAProperty == false)
+            {
+                Console.WriteLine("property obj not found");
+                return null;
+            }
+          
+            if (value == null || column == null)
+            {
+                    req = $"SELECT * FROM {table.GetType().Name.ToString()}";
+              }
+
+            else {
+                    req = $"SELECT * FROM {table.GetType().Name.ToString()} WHERE {column} = @Value";
+                }
+
+            try
+            {
+                conn.Open();
+                using (OdbcCommand cmd = new OdbcCommand(req, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Value", value);
+                    OdbcDataReader dr = cmd.ExecuteReader();
+                    DataTable dt = new DataTable();
+                    dt.Load(dr);
+                    List<T> list = MapList(dt, table);
+                    return list;
+                }
+            }
+            finally
+            {
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private static List<T> MapList<T>(DataTable dt, T c)
+        {
+            List<T> list = new List<T>();
+
+            PropertyInfo[] propertyInfoObject = c.GetType().GetProperties();
+            T t = Activator.CreateInstance<T>();
+
+            foreach (DataRow dr in dt.Rows)
+            {
+
+                foreach (PropertyInfo fi in propertyInfoObject)
+                {
+                    fi.SetValue(t, dr[fi.Name]);
+                }
+
+
+                list.Add(t);
+
+            }
+
+            return list;
+        }
 
         public static MappingObject GetTypeOfPro<T>(T c)
         {
@@ -311,7 +441,7 @@ namespace Project_Orn
                 {
                     NameInfo = propertyInfoObject.Name,
 
-                    ValueInfo = propertyInfoObject.GetValue(c).ToString()
+                    ValueInfo = propertyInfoObject.GetValue(c)
                 };
 
                 switch (propertyInfoObject.PropertyType.Name.ToString())
@@ -350,12 +480,15 @@ namespace Project_Orn
 
                 mappingObject.PropertiesAttributes.Add(propertyAttributes);
             }
-           
+
 
 
             return mappingObject;
 
         }
+
+
+
 
     }
 }

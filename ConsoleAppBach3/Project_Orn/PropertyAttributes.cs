@@ -11,6 +11,6 @@ namespace Project_Orn
 
         public string NameInfo { get; set; }
         public string TypeInfo { get; set; }
-        public string ValueInfo { get; set; }
+        public object ValueInfo { get; set; }
     }
 }

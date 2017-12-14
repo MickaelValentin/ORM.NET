@@ -27,96 +27,76 @@ namespace ConsoleAppBach3
             ford.Power = 4;
             ford.Sizecar = 5.25;
             ford.Isitok = true;
-        
-            MappingObject voitureMapping = new MappingObject();
-            voitureMapping = MySQL.GetTypeOfPro(ford);
-            OdbcConnection conn = new OdbcConnection(
-                "DRIVER={MySQL ODBC 5.3 ANSI Driver};" +
-                "SERVER=localhost;" +
-                "DATABASE=test;" +
-                "USER=root;" +
-                "PASSWORD=root");
 
-            string req = $"CREATE TABLE {voitureMapping.ObjectName}(";
-            for (int i = 0 ; i < voitureMapping.PropertiesAttributes.Count();i++ )
+            MySQL.CreateTableNextGen(ford);
+            MySQL.InsertNextGen(ford);
+            
+            List<Voiture> Garage = MySQL.SelectTableNextGen("Brand", "Ford", new Voiture());
+
+            foreach (Voiture item in Garage)
             {
+                Console.WriteLine(item.Brand);
+                Console.WriteLine(item.CreateDate);
+                Console.WriteLine(item.Distance);
+                Console.WriteLine(item.Power);
+                Console.WriteLine(item.Sizecar);
+                Console.WriteLine(item.Isitok);
 
-                if (i == voitureMapping.PropertiesAttributes.Count()-1) {
-                    req += $"{voitureMapping.PropertiesAttributes[i].NameInfo} {voitureMapping.PropertiesAttributes[i].TypeInfo}";
-                }
-                else
+            }
+            Console.ReadKey();
+
+
+
+
+
+            /*   
+                while (true)
                 {
-                    req += $"{voitureMapping.PropertiesAttributes[i].NameInfo} {voitureMapping.PropertiesAttributes[i].TypeInfo},";
+                    afficherMenu();
+                    Console.WriteLine("Votre choix :");
+                    string choix = Console.ReadLine();
+                    switch (choix.ToLower())
+                    {
+                        case "1":
+                            ajouterContact();
+                            break;
+                        case "2":
+                            afficherContact();
+                            break;
+                        case "3":
+                            trierContacts();
+                            break;
+                        case "4":
+                            trierContactsParDate();
+                            break;
+                        case "5":
+                                triGeneric();
+                            break;
+                        case "6":
+                            extension();
+                            break;
+                        case "7":
+                            rechercheContactParNom();
+                            break;
+                        case "8":
+                            rechercheContactParDate();
+                            break;
+                        case "9":
+                            linq();
+                            break;
+                        case "10":
+                            TPLinq();
+                            break;
+                        case "q":
+                            return;
+
+                        default:
+                            Console.WriteLine("Erreur dans le choix");
+                            break;
+                    }
                 }
-               
-            }
-            req += ")";
-           
-            try
-            {
-                conn.Open();
-                OdbcCommand cmd = new OdbcCommand(req, conn);
-                cmd.ExecuteNonQuery();
-            }
-            finally
-            {
-                if (conn != null)
-                {
-                    conn.Close();
-                }
-            }
-        
-
-
-
-        /*   
-            while (true)
-            {
-                afficherMenu();
-                Console.WriteLine("Votre choix :");
-                string choix = Console.ReadLine();
-                switch (choix.ToLower())
-                {
-                    case "1":
-                        ajouterContact();
-                        break;
-                    case "2":
-                        afficherContact();
-                        break;
-                    case "3":
-                        trierContacts();
-                        break;
-                    case "4":
-                        trierContactsParDate();
-                        break;
-                    case "5":
-                            triGeneric();
-                        break;
-                    case "6":
-                        extension();
-                        break;
-                    case "7":
-                        rechercheContactParNom();
-                        break;
-                    case "8":
-                        rechercheContactParDate();
-                        break;
-                    case "9":
-                        linq();
-                        break;
-                    case "10":
-                        TPLinq();
-                        break;
-                    case "q":
-                        return;
-
-                    default:
-                        Console.WriteLine("Erreur dans le choix");
-                        break;
-                }
-            }
-            */
-    }
+                */
+        }
 
     private static void TPLinq()
     {
