@@ -1,9 +1,10 @@
 ﻿<Properties StartupConfiguration="{82F91C03-8511-4368-93BE-3CA67B34B80D}|Default">
   <MonoDevelop.Ide.Workbench ActiveDocument="Project_Orn/MySqlMapping.cs">
     <Files>
-      <File FileName="Project_Orn/MappingObject.cs" Line="21" Column="9" />
+      <File FileName="Project_Orn/MappingObject.cs" Line="19" Column="9" />
       <File FileName="ConsoleAppBach3/Program.cs" Line="38" Column="28" />
-      <File FileName="Project_Orn/MySqlMapping.cs" Line="1" Column="1" />
+      <File FileName="Project_Orn/PostGreMapping.cs" Line="19" Column="45" />
+      <File FileName="Project_Orn/MySqlMapping.cs" Line="14" Column="37" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
