@@ -44,10 +44,8 @@ namespace ConsoleAppBach3
 
             }
             Console.ReadKey();
-
-
-
-
+            MySQL.DeleteElemetFromTableNextGen("Brand", "Ford", new Voiture());
+            MySQL.DropTableNextGen(new Voiture());
 
             /*   
                 while (true)
