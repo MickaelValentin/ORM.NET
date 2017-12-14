@@ -40,11 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MySQL.cs" />
-    <Compile Include="PostGre.cs" />
+    <Compile Include="MySqlMapping.cs" />
+    <Compile Include="PostGreMapping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyAttributes.cs" />
-    <Compile Include="SQLServer.cs" />
+    <Compile Include="SQLServerMapping.cs" />
     <Compile Include="MappingObject.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

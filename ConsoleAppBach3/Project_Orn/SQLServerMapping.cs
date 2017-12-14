@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Project_Orn
 {
-    class SQLServer
+    class SQLServerMapping
     {
         public void connection()
         {

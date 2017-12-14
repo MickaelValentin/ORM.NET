@@ -30,10 +30,10 @@ namespace ConsoleAppBach3
                 Isitok = true
             };
 
-            MySQL.CreateTableNextGen(ford);
-            MySQL.InsertNextGen(ford);
+            MySqlMapping.CreateTableNextGen(ford);
+            MySqlMapping.InsertNextGen(ford);
             
-            List<Voiture> Garage = MySQL.SelectTableNextGen("Brand", "Ford", new Voiture());
+            List<Voiture> Garage = MySqlMapping.SelectTableNextGen("Brand", "Ford", new Voiture());
 
             foreach (Voiture item in Garage)
             {
@@ -48,7 +48,7 @@ namespace ConsoleAppBach3
             Console.ReadKey();
           //  MySQL.DeleteElemetFromTableNextGen("Brand", "Ford", new Voiture());
             ford.Power = 250;
-            MySQL.UpdateElementNextGen(4, ford);
+            MySqlMapping.UpdateElementNextGen(4, ford);
             Console.ReadKey();
         //    MySQL.DropTableNextGen(new Voiture());
 

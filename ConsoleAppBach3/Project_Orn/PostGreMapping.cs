@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Project_Orn
 {
-    public static class PostGre
+    public static class PostGreMapping
     {
         public static void Select()
         {
