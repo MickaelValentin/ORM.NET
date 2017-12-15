@@ -273,7 +273,7 @@ namespace Project_Orn
         {
             MappingObject objectMapping = new MappingObject();
             objectMapping = MappingOperations.GetTypeOfProPostGre(obj);
-            string reqInsertElement = $" INSERT INTO {objectMapping.ObjectName} VALUES(NULL,";
+            string reqInsertElement = $" INSERT INTO {objectMapping.ObjectName} VALUES(DEFAULT,";
             for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
             {
                 if (i == objectMapping.PropertiesAttributes.Count() - 1)
@@ -289,8 +289,9 @@ namespace Project_Orn
 
             try
             {
-                using (OdbcConnection conn = GetConnection("PostgreSQL UNICODE)", "localhost", "5432",
-   "test", "postgres", "root"))
+
+                using (OdbcConnection conn = GetConnection("PostgreSQL Unicode", "localhost", "5432",
+                   "testorm", "postgres", "root"))
                 {
                     conn.Open();
                     using (OdbcCommand qureyToInsert = new OdbcCommand(reqInsertElement, conn))
@@ -385,8 +386,8 @@ namespace Project_Orn
 
             try
             {
-                using (OdbcConnection conn = GetConnection("PostgreSQL ODBC Driver(UNICODE)", "localhost", "5432",
-                             "test", "root", "root"))
+                using (OdbcConnection conn = GetConnection("PostgreSQL Unicode", "localhost", "5432",
+       "testorm", "postgres", "root"))
                 {
                     conn.Open();
                     using (OdbcCommand queryToSelectElement = new OdbcCommand(reqSelectElement, conn))
@@ -432,8 +433,8 @@ namespace Project_Orn
             string reqDelete = $"DELETE FROM {table.GetType().Name.ToString()} WHERE {column} = ?";
             try
             {
-                using (OdbcConnection conn = GetConnection("PostgreSQL ODBC Driver(UNICODE)", "localhost", "5432",
-        "test", "root", "root"))
+                using (OdbcConnection conn = GetConnection("PostgreSQL Unicode", "localhost", "5432",
+     "testorm", "postgres", "root"))
                 {
                     conn.Open();
                     using (OdbcCommand queryToDeleteElement = new OdbcCommand(reqDelete, conn))
@@ -459,8 +460,8 @@ namespace Project_Orn
             string reqDropTable = $"DROP TABLE IF EXISTS {objectMapping.ObjectName}";
             try
             {
-                using (OdbcConnection conn = GetConnection("PostgreSQL ODBC Driver(UNICODE)", "localhost", "5432",
-                   "test", "root", "root"))
+                using (OdbcConnection conn = GetConnection("PostgreSQL Unicode", "localhost", "5432",
+      "testorm", "postgres", "root"))
                 {
                     conn.Open();
 

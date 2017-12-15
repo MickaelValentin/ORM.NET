@@ -15,16 +15,16 @@ namespace Project_Orn
             List<T> list = new List<T>();
 
             PropertyInfo[] propertyInfoObject = c.GetType().GetProperties();
-            T t = Activator.CreateInstance<T>();
+         
 
             foreach (DataRow dr in dt.Rows)
             {
+                T t = Activator.CreateInstance<T>();
 
                 foreach (PropertyInfo fi in propertyInfoObject)
                 {
                     fi.SetValue(t, dr[fi.Name]);
                 }
-
 
                 list.Add(t);
 

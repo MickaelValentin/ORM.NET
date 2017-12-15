@@ -20,25 +20,81 @@ namespace ConsoleAppBach3
 
         static void Main(string[] args)
         {
-            Voiture ford = new Voiture
+            Voiture ka = new Voiture
             {
                 Brand = "Ford",
-                CreateDate = new DateTime(),
+                Model = "Ka",
+                CreateDate = DateTime.Today.AddDays(-1),
                 Distance = 100454356578,
                 Power = 4,
                 Sizecar = 5.25,
                 Isitok = true
             };
 
-            MySqlMapping.CreateTableNextGen(ford);
-            MySqlMapping.InsertNextGen(ford);
-            
-            List<Voiture> Garage = MySqlMapping.SelectTableNextGen("Brand", "Ford", new Voiture());
+            Voiture mustang = new Voiture
+            {
+                Brand = "Ford",
+                Model = "Mustang",
+                CreateDate = DateTime.Today.AddDays(5),
+                Distance = 100,
+                Power = 360,
+                Sizecar = 5.25,
+                Isitok = true
+            };
+
+            Voiture golf = new Voiture
+            {
+                Brand = "Volkswagen",
+                Model = "Golf 7",
+                CreateDate = DateTime.Today,
+                Distance = 2500,
+                Power = 120,
+                Sizecar = 4.25,
+                Isitok = true
+            };
+
+            Voiture aventador = new Voiture
+            {
+                Brand = "Lamborghini",
+                Model = "Aventador",
+                CreateDate = DateTime.Today,
+                Distance = 2500,
+                Power = 120,
+                Sizecar = 4.25,
+                Isitok = true
+            };
+
+
+            //Test of MySQL 
+            MySqlMapping.DropTableNextGen(new Voiture());
+            MySqlMapping.CreateTableNextGen(new Voiture());
+            MySqlMapping.InsertNextGen(ka);
+            MySqlMapping.InsertNextGen(mustang);
+            MySqlMapping.InsertNextGen(golf);
+            MySqlMapping.InsertNextGen(aventador);
+
+            List<Voiture> GarageFord = MySqlMapping.SelectTableNextGen("Brand", "Ford", new Voiture());
           //  MySQL.DeleteElemetFromTableNextGen("Brand", "Ford", new Voiture());
-            ford.Power = 250;
-            MySqlMapping.UpdateElementNextGen(4, ford);
-            PostGreMapping.CreateTableNextGen(ford);
-          //  MySqlMapping.DropTableNextGen(new Voiture());
+            ka.Power = 250;
+            MySqlMapping.UpdateElementNextGen(4, ka);
+            MySqlMapping.DeleteElemetFromTableNextGen("Brand", "Lamborghini", new Voiture());
+
+
+
+
+            //Test of PostGre
+            PostGreMapping.DropTableNextGen(new Voiture()); 
+            PostGreMapping.CreateTableNextGen(new Voiture());
+            PostGreMapping.InsertNextGen(ka);
+            PostGreMapping.InsertNextGen(mustang);
+            PostGreMapping.InsertNextGen(golf);
+            PostGreMapping.InsertNextGen(aventador);
+     //       List<Voiture> GarageFord2 = PostGreMapping.SelectTableNextGen("Brand", "Ford", new Voiture());
+            //  MySQL.DeleteElemetFromTableNextGen("Brand", "Ford", new Voiture());
+       //     mustang.Power = 2500;
+        //    PostGreMapping.UpdateElementNextGen(4, mustang);
+
+            //  MySqlMapping.DropTableNextGen(new Voiture());
             Console.ReadKey();
 
             /*   
