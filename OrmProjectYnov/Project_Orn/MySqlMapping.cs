@@ -261,32 +261,6 @@ e.WriteLine("La table à bien été créer");
         }
         */
         #endregion
-
-        #region Insert
-
-        /// <summary>
-        /// Méthode Insert
-        /// </summary>
-        /// <typeparam name="T">Paramètre générique</typeparam>
-        /// <param name="obj">Objet voiture</param>
-        /// <remarks>
-        /// obj créer et envoyer en paramètre à la fonction dans le fichier Program.cs
-        /// <see cref="TestApp.Program.Main"></see>
-        /// </remarks>
-        /// <c>reqInsertElement</c> Contient la syntaxe de la requête MySql
-        /// <c>objectMapping</c>Contient les information de l'objet voiture
-        /// <param name="conn">Contient les informations de connexion -> (nom de la base, identifiant, mot de passe..)</param>
-        /// <remarks>
-        /// <c>infoFormapping"</c>
-        /// Récupère les attributs de la table
-        /// Puis ajoute les valeurs pour chaque attribut de la table
-        /// <code>
-        /// PropertyAttributes infoFormapping = objectMapping.PropertiesAttributes[i];
-        /// qureyToInsert.Parameters.AddWithValue($"{infoFormapping.NameInfo}", infoFormapping.ValueInfo);
-        /// </code>
-        /// </remarks>
-        /// <returns>True si la requête s'est executer correctement, false si une exception est détecté</returns>
-
         public static bool InsertNextGen<T>(ConnectionMySql connection, T obj)
         {
             MappingObject objectMapping = new MappingObject();
@@ -312,15 +286,15 @@ e.WriteLine("La table à bien été créer");
 
                 {
                     conn.Open();
-                    using (OdbcCommand qureyToInsert = new OdbcCommand(reqInsertElement, conn))
+                    using (OdbcCommand queryToInsert = new OdbcCommand(reqInsertElement, conn))
                     {
                         for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
                         {
                             PropertyAttributes infoFormapping = objectMapping.PropertiesAttributes[i];
-                            qureyToInsert.Parameters.AddWithValue($"{infoFormapping.NameInfo}", infoFormapping.ValueInfo);
+                            queryToInsert.Parameters.AddWithValue($"{infoFormapping.NameInfo}", infoFormapping.ValueInfo);
                         }
-                        qureyToInsert.Prepare();
-                        qureyToInsert.ExecuteNonQuery();
+                        queryToInsert.Prepare();
+                        queryToInsert.ExecuteNonQuery();
                         return true;
                     }
                 }
@@ -331,30 +305,6 @@ e.WriteLine("La table à bien été créer");
                 return false;
             }
         }
-        #endregion
-
-        #region Create
-
-        /// <summary>
-        /// Méthode Create
-        /// </summary>
-        /// <typeparam name="T">Paramètre générique</typeparam>
-        /// <param name="obj">Objet voiture</param>
-        /// <remarks>
-        /// obj créer et envoyer en paramètre à la fonction dans le fichier Program.cs
-        /// <see cref="TestApp.Program.Main"></see>
-        /// </remarks>
-        /// <remarks>
-        /// <c>reqCreateTable</c> Contient la syntaxe de la requête MySql
-        /// <c>objectMapping</c>Contient les information de l'objet voiture
-        /// <c>conn</c>Contient les informations de connexion -> (nom de la base, identifiant, mot de passe..)
-        /// </remarks>
-        /// <remarks>
-        /// On récupère grâce à objectMapping les informations de l'objet que l'on ajoute à la requête MySql
-        /// <c>reqCreateTable += $"{objectMapping.PropertiesAttributes[i].NameInfo} {objectMapping.PropertiesAttributes[i].TypeInfo},";</c>
-        /// Le nom de l'attribut est récupérer ainsi que le type de sa valeur
-        /// </remarks>
-        /// <returns>True si la requête s'est executer correctement, false si une exception est détecté</returns>
 
         public static bool CreateTableNextGen<T>(ConnectionMySql connection, T obj)
         {
@@ -372,9 +322,9 @@ e.WriteLine("La table à bien été créer");
                   connection.DataBase, connection.User, connection.Password))
                 {
                     conn.Open();
-                    using (OdbcCommand qureyToCreateTable = new OdbcCommand(reqCreateTable, conn))
+                    using (OdbcCommand queryToCreateTable = new OdbcCommand(reqCreateTable, conn))
                     {
-                        qureyToCreateTable.ExecuteNonQuery();
+                        queryToCreateTable.ExecuteNonQuery();
                         return true;
                     }
                 }
@@ -385,31 +335,6 @@ e.WriteLine("La table à bien été créer");
                 return false;
             }
         }
-        #endregion
-
-        #region Select
-
-        /// <summary>
-        /// Méthode Select
-        /// </summary>
-        /// <typeparam name="T">Type générique</typeparam>
-        /// <param name="column">Nom de la colonne de la nouvelle table</param>
-        /// <param name="value">Nom de la valeur de la nouvelle table</param>
-        /// <param name="table">Nom de la nouvelle Table</param>
-        /// <remarks>
-        /// <c>reqSelectElement</c> Contient la syntaxe de la requête MySql
-        /// <c>objectMapping</c>Contient les information de l'objet voiture
-        /// <c>conn</c>Contient les informations de connexion -> (nom de la base, identifiant, mot de passe..)
-        /// </remarks>
-        /// <remarks>
-        /// <code>queryToSelectElement.Parameters.AddWithValue(column, value);</code>
-        /// Ajoute les élément de recherche à la requête MySql
-        /// <code>dt.Load(dr);</code>
-        /// Charge les éléments suite au SELECT
-        /// <code>List<T> list = MappingOperations.MapList(dt, table);</code>
-        /// Ajoute les éléments charger à la liste <c>list</c>
-        /// </remarks>
-        /// <returns>list si la requête est valide, false si une exeption est détecté</returns>
 
         public static List<T> SelectTableNextGen<T>(ConnectionMySql connection, string column, string value, T table)
         {
@@ -467,27 +392,6 @@ e.WriteLine("La table à bien été créer");
                 return null;
             }
         }
-        #endregion
-
-        #region Delete
-
-        /// <summary>
-        /// Méthode Delete
-        /// </summary>
-        /// <typeparam name="T">Type générique</typeparam>
-        /// <param name="column">Nom de la colonne</param>
-        /// <param name="value">Nom de la valeur</param>
-        /// <param name="table">Nom de la Table</param>
-        /// <remarks>
-        /// <c>reqDelete</c> Contient la syntaxe de la requête MySql
-        /// <c>conn</c>Contient les informations de connexion -> (nom de la base, identifiant, mot de passe..)
-        /// </remarks>
-        /// <remarks>
-        /// Création de l'objet <c>OdbcCommand queryToDeleteElement</c> qui prend en paramètre la requête MySql
-        /// <code>queryToDeleteElement.Parameters.AddWithValue(column, value);</code>
-        /// Ajout de la valeur à supprimer et de la colonne ou chercher
-        /// </remarks>
-        /// <returns>true si la requête c'est dérouler correctement, false si une exeption est détecté</returns>
 
         public static bool DeleteElemetFromTableNextGen<T>(ConnectionMySql connection, string column, string value, T table)
         {
@@ -532,23 +436,6 @@ e.WriteLine("La table à bien été créer");
                 return false;
             }
         }
-        #endregion
-
-        #region Drop
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T">Type générique</typeparam>
-        /// <param name="obj">Objet voiture</param>
-        /// <remarks>
-        /// <c>reqDropTable</c> Contient la syntaxe de la requête MySql
-        /// <c>conn</c>Contient les informations de connexion -> (nom de la base, identifiant, mot de passe..)
-        /// </remarks>
-        /// <remarks>
-        /// Avec l'objet <c>objectMapping</c> le nom de la table est récupérer puis ajouter dans la string qui contient la requête MySql
-        /// </remarks>
-        /// <returns>true si la requête c'est dérouler correctement, false si une exeption est détecté</returns>
 
         public static bool DropTableNextGen<T>(ConnectionMySql connection, T obj)
         {
@@ -576,31 +463,6 @@ e.WriteLine("La table à bien été créer");
 
             }
         }
-        #endregion
-
-        #region Update
-
-        /// <summary>
-        /// Méthode Update
-        /// </summary>
-        /// <typeparam name="T">Type générique</typeparam>
-        /// <param name="id">ID de la table (permet de gérer les conditions)</param>
-        /// <param name="table">Information de la Table</param>
-        /// <remarks>
-        /// <c>reqUpdate</c> Contient la syntaxe de la requête MySql
-        /// <c>conn</c>Contient les informations de connexion -> (nom de la base, identifiant, mot de passe..)
-        /// </remarks>
-        /// <remarks>
-        /// Avec l'objet <c>objectMapping</c> les informations relative à la table son récupérer (nom de la table, nombre de colonnes, nom colonne..)
-        /// On stock les valeurs à ajouter dans l'objet <c>infoFormapping</c> avant de les ajouter à la requête MySql pour l'execution
-        /// <code>
-        /// PropertyAttributes infoFormapping = objectMapping.PropertiesAttributes[i];
-        /// qureyUpdate.Parameters.AddWithValue($"{infoFormapping.NameInfo}", infoFormapping.ValueInfo);
-        /// </code>
-        /// On ajoute aussi l'ID pour ajouter la valeur à l'ID correspondant
-        /// <code>qureyUpdate.Parameters.AddWithValue($"id", id);</code>
-        /// </remarks>
-        /// <returns>true si la requête c'est dérouler correctement, false si une exeption est détecter</returns>
 
         public static bool UpdateElementNextGen<T>(ConnectionMySql connection, int id, T table)
         {
@@ -628,16 +490,16 @@ e.WriteLine("La table à bien été créer");
                  connection.DataBase, connection.User, connection.Password))
                 {
                     conn.Open();
-                    using (OdbcCommand qureyUpdate = new OdbcCommand(reqUpdate, conn))
+                    using (OdbcCommand queryUpdate = new OdbcCommand(reqUpdate, conn))
                     {
                         for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
                         {
                             PropertyAttributes infoFormapping = objectMapping.PropertiesAttributes[i];
-                            qureyUpdate.Parameters.AddWithValue($"{infoFormapping.NameInfo}", infoFormapping.ValueInfo);
+                            queryUpdate.Parameters.AddWithValue($"{infoFormapping.NameInfo}", infoFormapping.ValueInfo);
                         }
-                        qureyUpdate.Parameters.AddWithValue($"id", id);
-                        qureyUpdate.Prepare();
-                        qureyUpdate.ExecuteNonQuery();
+                        queryUpdate.Parameters.AddWithValue($"id", id);
+                        queryUpdate.Prepare();
+                        queryUpdate.ExecuteNonQuery();
                         return true;
                     }
                 }
@@ -648,9 +510,7 @@ e.WriteLine("La table à bien été créer");
                 return false;
             }
         }
-        #endregion
 
-        #region Get Connection
         public static OdbcConnection GetConnection(string driver, string server,
             string database, string user, string password)
         {
@@ -661,7 +521,11 @@ e.WriteLine("La table à bien été créer");
                 $"USER={user};" +
                 $"PASSWORD={password}");
         }
-        #endregion
+
+
+
+
+
 
     }
 }
