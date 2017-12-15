@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Project_Orn
 {
-   public class SQLServerMapping
+    public class SQLServerMapping
     {
         #region OldCode
         /*
@@ -187,12 +189,12 @@ namespace Project_Orn
                 $"Password={password}");
         }
 
-        public static bool CreateTableNextGen<T>(SqlConnection connection,T obj)
+        public static bool CreateTableNextGen<T>(ConnectionSqlServer connection, T obj)
         {
             MappingObject objectMapping = new MappingObject();
             objectMapping = MappingOperations.GetTypeOfProSQLServer(obj);
 
-            string reqCreateTable = $"CREATE TABLE  {objectMapping.ObjectName}(ID INT PRIMARY KEY,";
+            string reqCreateTable = $"CREATE TABLE  {objectMapping.ObjectName}(ID INT IDENTITY NOT NULL PRIMARY KEY,";
             for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
             {
                 reqCreateTable += $"{objectMapping.PropertiesAttributes[i].NameInfo} {objectMapping.PropertiesAttributes[i].TypeInfo}";
@@ -205,12 +207,12 @@ namespace Project_Orn
             reqCreateTable += ")";
             try
             {
-                using (SqlConnection conn = connection)
+                using (SqlConnection conn = GetConnection(connection.Server, connection.DataBase, connection.User, connection.Password))
                 {
                     conn.Open();
-                    using ( SqlCommand qureyToCreateTable = new SqlCommand(reqCreateTable, conn))
+                    using (SqlCommand queryToCreateTable = new SqlCommand(reqCreateTable, conn))
                     {
-                        qureyToCreateTable.ExecuteNonQuery();
+                        queryToCreateTable.ExecuteNonQuery();
                         return true;
                     }
                 }
@@ -223,38 +225,165 @@ namespace Project_Orn
             }
         }
 
-        public static bool InsertNextGen<T>(SqlConnection connection,T obj)
+        public static bool InsertNextGen<T>(ConnectionSqlServer connection, T obj)
         {
             MappingObject objectMapping = new MappingObject();
             objectMapping = MappingOperations.GetTypeOfProSQLServer(obj);
-            string reqInsertElement = $" INSERT INTO {objectMapping.ObjectName} VALUES(DEFAULT,";
+            string reqInsertElement = $" INSERT INTO {objectMapping.ObjectName} VALUES(";
             for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
             {
-                if (i == objectMapping.PropertiesAttributes.Count() - 1)
+                PropertyAttributes infoFormapping = objectMapping.PropertiesAttributes[i];
+                reqInsertElement += $"@{infoFormapping.NameInfo}";
+                if (i != objectMapping.PropertiesAttributes.Count() - 1)
                 {
-                    reqInsertElement += "?";
-                }
-                else
-                {
-                    reqInsertElement += "?,";
+                    reqInsertElement += ",";
                 }
             }
             reqInsertElement += ")";
 
             try
             {
-                using (SqlConnection conn = connection)
+                using (SqlConnection conn = GetConnection(connection.Server, connection.DataBase, connection.User, connection.Password))
                 {
                     conn.Open();
-                    using (SqlCommand qureyToInsert = new SqlCommand(reqInsertElement, conn))
+                    using (SqlCommand queryToInsert = new SqlCommand(reqInsertElement, conn))
                     {
                         for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
                         {
                             PropertyAttributes infoFormapping = objectMapping.PropertiesAttributes[i];
-                            qureyToInsert.Parameters.AddWithValue($"{infoFormapping.NameInfo}", infoFormapping.ValueInfo);
+                            queryToInsert.Parameters.AddWithValue($"{infoFormapping.NameInfo}", infoFormapping.ValueInfo);
                         }
-                        qureyToInsert.Prepare();
-                        qureyToInsert.ExecuteNonQuery();
+
+
+                        queryToInsert.ExecuteNonQuery();
+                        return true;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+
+
+        }
+        public static bool DropTableNextGen<T>(ConnectionSqlServer connection, T obj)
+        {
+            MappingObject objectMapping = new MappingObject();
+            objectMapping = MappingOperations.GetTypeOfProPostGre(obj);
+            string reqDropTable = $"DROP TABLE IF EXISTS {objectMapping.ObjectName}";
+            try
+            {
+                using (SqlConnection conn = GetConnection(connection.Server,
+                 connection.DataBase, connection.User, connection.Password))
+                {
+                    conn.Open();
+
+                    using (SqlCommand queryToDropTable = new SqlCommand(reqDropTable, conn))
+                    {
+                        queryToDropTable.ExecuteNonQuery();
+                        return true;
+                    }
+                }
+            }
+            catch (Exception c)
+            {
+                Console.WriteLine(c);
+                return false;
+            }
+        }
+
+
+        public static List<T> SelectTableNextGen<T>(ConnectionSqlServer connection, string column, string value, T table)
+        {
+            string reqSelectElement;
+            if (table.GetType().Name == null)
+            {
+                Console.WriteLine("obj not found");
+                return null;
+            }
+            bool isAProperty = false;
+            foreach (PropertyInfo item in table.GetType().GetProperties())
+            {
+                if (column.Equals(item.Name))
+                {
+                    isAProperty = true;
+
+                }
+            }
+            if (isAProperty == false)
+            {
+                Console.WriteLine("property obj not found");
+                return null;
+            }
+
+            if (value == null || column == null)
+            {
+                reqSelectElement = $"SELECT * FROM {table.GetType().Name.ToString()}";
+            }
+            else
+            {
+                reqSelectElement = $"SELECT * FROM {table.GetType().Name.ToString()} WHERE {column} LIKE @{column}";
+            }
+
+            try
+            {
+                using (SqlConnection conn = GetConnection(connection.Server,
+                   connection.DataBase, connection.User, connection.Password))
+
+                {
+                    conn.Open();
+                    using (SqlCommand queryToSelectElement = new SqlCommand(reqSelectElement, conn))
+                    {
+                        queryToSelectElement.Parameters.AddWithValue(column, value);
+                        SqlDataReader dr = queryToSelectElement.ExecuteReader();
+                        DataTable dt = new DataTable();
+                        dt.Load(dr);
+                        List<T> list = MappingOperations.MapList(dt, table);
+                        return list;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+        public static bool DeleteElemetFromTableNextGen<T>(ConnectionSqlServer connection, string column, string value, T table)
+        {
+            if (table.GetType().Name == null)
+            {
+                Console.WriteLine("obj not found");
+                return false;
+            }
+            bool isAProperty = false;
+            foreach (PropertyInfo item in table.GetType().GetProperties())
+            {
+                if (column.Equals(item.Name))
+                {
+                    isAProperty = true;
+                    break;
+                }
+            }
+            if (isAProperty == false)
+            {
+                Console.WriteLine("property obj not found");
+                return false;
+            }
+            string reqDelete = $"DELETE FROM {table.GetType().Name.ToString()} WHERE {column} LIKE @{column}";
+            try
+            {
+                using (SqlConnection conn = GetConnection(connection.Server,
+     connection.DataBase, connection.User, connection.Password))
+
+                {
+                    conn.Open();
+                    using (SqlCommand queryToDeleteElement = new SqlCommand(reqDelete, conn))
+                    {
+                        queryToDeleteElement.Parameters.AddWithValue(column, value);
+                        queryToDeleteElement.ExecuteNonQuery();
                         return true;
                     }
                 }
@@ -265,6 +394,52 @@ namespace Project_Orn
                 return false;
             }
         }
+        public static bool UpdateElementNextGen<T>(ConnectionSqlServer connection, int id, T table)
+        {
+            if (table.GetType().Name == null)
+            {
+                Console.WriteLine("obj not found");
+                return false;
 
+            }
+            MappingObject objectMapping = new MappingObject();
+            objectMapping = MappingOperations.GetTypeOfProPostGre(table);
+            string reqUpdate = $"UPDATE  {table.GetType().Name.ToString()} SET ";
+            for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
+            {
+                reqUpdate += $"{objectMapping.PropertiesAttributes[i].NameInfo} = @{objectMapping.PropertiesAttributes[i].NameInfo}";
+                if (i != objectMapping.PropertiesAttributes.Count() - 1)
+                {
+                    reqUpdate += ",";
+                }
+            }
+            reqUpdate += $" WHERE id LIKE @id";
+            try
+            {
+                using (SqlConnection conn = GetConnection(connection.Server,
+      connection.DataBase, connection.User, connection.Password))
+
+                {
+                    conn.Open();
+                    using (SqlCommand queryUpdate = new SqlCommand(reqUpdate, conn))
+                    {
+                        for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
+                        {
+                            PropertyAttributes infoFormapping = objectMapping.PropertiesAttributes[i];
+                            queryUpdate.Parameters.AddWithValue($"{infoFormapping.NameInfo}", infoFormapping.ValueInfo);
+                        }
+                        queryUpdate.Parameters.AddWithValue($"id", id);
+                        queryUpdate.ExecuteNonQuery();
+                        return true;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
     }
+
 }

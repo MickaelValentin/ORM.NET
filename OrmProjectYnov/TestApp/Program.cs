@@ -9,10 +9,6 @@ namespace TestApp
 {
     class Program
     {
-
-        //private static DateTime debut;
-        //private static DateTime fin;
-
         static void Main(string[] args)
         {
             Voiture ka = new Voiture
@@ -60,54 +56,54 @@ namespace TestApp
             };
 
 
-            //Test of MySQL 
-            ConnectionMySql MysqlConnection = new ConnectionMySql("MySQL ODBC 5.3 ANSI Driver", "localhost",
-                                                                        "test", "root", "root");
-         
-             MySqlMapping.DropTableNextGen(MysqlConnection, new Voiture());
-             MySqlMapping.CreateTableNextGen(MysqlConnection,new Voiture());
-             MySqlMapping.InsertNextGen(MysqlConnection,ka);
-             MySqlMapping.InsertNextGen(MysqlConnection,mustang);
-             MySqlMapping.InsertNextGen(MysqlConnection,golf);
-             MySqlMapping.InsertNextGen(MysqlConnection,aventador);
-             List<Voiture> GarageFord = MySqlMapping.SelectTableNextGen(MysqlConnection,"Brand", "Ford", new Voiture());
-             ka.Power = 250;
-             MySqlMapping.UpdateElementNextGen(MysqlConnection,1, ka);
-             MySqlMapping.DeleteElemetFromTableNextGen(MysqlConnection,"Brand", "Lamborghini", new Voiture());
+            ////Test of MySQL 
+            ConnectionMySql connectionMySql = new ConnectionMySql("MySQL ODBC 5.3 ANSI Driver", "localhost",
+                                                                         "test", "root", "root");
+            MySqlMapping.DropTableNextGen(connectionMySql, new Voiture());
+            MySqlMapping.CreateTableNextGen(connectionMySql, new Voiture());
+            MySqlMapping.InsertNextGen(connectionMySql, ka);
+            MySqlMapping.InsertNextGen(connectionMySql, mustang);
+            MySqlMapping.InsertNextGen(connectionMySql, golf);
+            MySqlMapping.InsertNextGen(connectionMySql, aventador);
+            List<Voiture> GarageMySql = MySqlMapping.SelectTableNextGen(connectionMySql, "Brand", "Ford", new Voiture());
+            ka.Power = 250;
+            MySqlMapping.UpdateElementNextGen(connectionMySql, 1, ka);
+            MySqlMapping.DeleteElemetFromTableNextGen(connectionMySql, "Brand", "Lamborghini", new Voiture());
 
 
 
 
             //Test of PostGre
-            ConnectionPostGre PostGreConnection = new ConnectionPostGre("PostgreSQL Unicode", "localhost", "5432",
-                                                                        "testorm", "postgres", "root");
-            PostGreMapping.DropTableNextGen(PostGreConnection,new Voiture());
-            PostGreMapping.CreateTableNextGen(PostGreConnection,new Voiture());
-            PostGreMapping.InsertNextGen(PostGreConnection,ka);
-            PostGreMapping.InsertNextGen(PostGreConnection,mustang);
-            PostGreMapping.InsertNextGen(PostGreConnection,golf);
-            PostGreMapping.InsertNextGen(PostGreConnection,aventador);
-            List<Voiture> GarageFord2 = PostGreMapping.SelectTableNextGen(PostGreConnection,"Brand", "Ford", new Voiture());
+            ConnectionPostGre connectionPostGre = new ConnectionPostGre("PostgreSQL Unicode", "localhost", "5432",
+                                                                       "testorm", "postgres", "root");
+            PostGreMapping.DropTableNextGen(connectionPostGre, new Voiture());
+            PostGreMapping.CreateTableNextGen(connectionPostGre, new Voiture());
+            PostGreMapping.InsertNextGen(connectionPostGre, ka);
+            PostGreMapping.InsertNextGen(connectionPostGre, mustang);
+            PostGreMapping.InsertNextGen(connectionPostGre, golf);
+            PostGreMapping.InsertNextGen(connectionPostGre, aventador);
+            List<Voiture> GaragePostGre = PostGreMapping.SelectTableNextGen(connectionPostGre, "Brand", "Ford", new Voiture());
 
-            PostGreMapping.DeleteElemetFromTableNextGen(PostGreConnection,"Brand", "Lamborghini", new Voiture());
+            PostGreMapping.DeleteElemetFromTableNextGen(connectionPostGre, "Brand", "Lamborghini", new Voiture());
             mustang.Power = 2501;
-            PostGreMapping.UpdateElementNextGen(PostGreConnection,2, mustang);
+            PostGreMapping.UpdateElementNextGen(connectionPostGre, 2, mustang);
 
 
 
 
             //Test of SQL Server 
-           // SqlConnection connSql = SQLServerMapping.GetConnection("(local)", "testorm", "dinesh", "root1234");            // SQLServerMapping.DropTableNextGen(new Voiture());
-           // SQLServerMapping.CreateTableNextGen(connSql,new Voiture());
-            // SQLServerMapping.InsertNextGen(ka);
-            // SQLServerMapping.InsertNextGen(mustang);
-            // SQLServerMapping.InsertNextGen(golf);
-            // SQLServerMapping.InsertNextGen(aventador);
+            ConnectionSqlServer connectionSqlServer = new ConnectionSqlServer("(local)", "testorm", "dinesh", "root1234");
+            SQLServerMapping.DropTableNextGen(connectionSqlServer, new Voiture());
+            SQLServerMapping.CreateTableNextGen(connectionSqlServer, new Voiture());
+            SQLServerMapping.InsertNextGen(connectionSqlServer, ka);
+            SQLServerMapping.InsertNextGen(connectionSqlServer, mustang);
+            SQLServerMapping.InsertNextGen(connectionSqlServer, golf);
+            SQLServerMapping.InsertNextGen(connectionSqlServer, aventador);
 
-            // List<Voiture> GarageFord = SQLServerMapping.SelectTableNextGen("Brand", "Ford", new Voiture());
-            //// SQLServerMapping.DeleteElemetFromTableNextGen("Brand", "Ford", new Voiture());
-            // ka.Power = 250;
-            // SQLServerMapping.UpdateElementNextGen(4, ka);
+             List<Voiture> GarageSqlServer = SQLServerMapping.SelectTableNextGen(connectionSqlServer,"Brand", "Ford", new Voiture());
+             SQLServerMapping.DeleteElemetFromTableNextGen(connectionSqlServer, "Model", "Ka", new Voiture());
+             aventador.Power = 783;
+             SQLServerMapping.UpdateElementNextGen(connectionSqlServer, 4, aventador);
             // SQLServerMapping.DeleteElemetFromTableNextGen("Brand", "Lamborghini", new Voiture());
 
             Console.WriteLine("End");

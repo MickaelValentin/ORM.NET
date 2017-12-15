@@ -286,15 +286,15 @@ e.WriteLine("La table à bien été créer");
 
                 {
                     conn.Open();
-                    using (OdbcCommand qureyToInsert = new OdbcCommand(reqInsertElement, conn))
+                    using (OdbcCommand queryToInsert = new OdbcCommand(reqInsertElement, conn))
                     {
                         for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
                         {
                             PropertyAttributes infoFormapping = objectMapping.PropertiesAttributes[i];
-                            qureyToInsert.Parameters.AddWithValue($"{infoFormapping.NameInfo}", infoFormapping.ValueInfo);
+                            queryToInsert.Parameters.AddWithValue($"{infoFormapping.NameInfo}", infoFormapping.ValueInfo);
                         }
-                        qureyToInsert.Prepare();
-                        qureyToInsert.ExecuteNonQuery();
+                        queryToInsert.Prepare();
+                        queryToInsert.ExecuteNonQuery();
                         return true;
                     }
                 }
@@ -322,9 +322,9 @@ e.WriteLine("La table à bien été créer");
                   connection.DataBase, connection.User, connection.Password))
                 {
                     conn.Open();
-                    using (OdbcCommand qureyToCreateTable = new OdbcCommand(reqCreateTable, conn))
+                    using (OdbcCommand queryToCreateTable = new OdbcCommand(reqCreateTable, conn))
                     {
-                        qureyToCreateTable.ExecuteNonQuery();
+                        queryToCreateTable.ExecuteNonQuery();
                         return true;
                     }
                 }
@@ -490,16 +490,16 @@ e.WriteLine("La table à bien été créer");
                  connection.DataBase, connection.User, connection.Password))
                 {
                     conn.Open();
-                    using (OdbcCommand qureyUpdate = new OdbcCommand(reqUpdate, conn))
+                    using (OdbcCommand queryUpdate = new OdbcCommand(reqUpdate, conn))
                     {
                         for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
                         {
                             PropertyAttributes infoFormapping = objectMapping.PropertiesAttributes[i];
-                            qureyUpdate.Parameters.AddWithValue($"{infoFormapping.NameInfo}", infoFormapping.ValueInfo);
+                            queryUpdate.Parameters.AddWithValue($"{infoFormapping.NameInfo}", infoFormapping.ValueInfo);
                         }
-                        qureyUpdate.Parameters.AddWithValue($"id", id);
-                        qureyUpdate.Prepare();
-                        qureyUpdate.ExecuteNonQuery();
+                        queryUpdate.Parameters.AddWithValue($"id", id);
+                        queryUpdate.Prepare();
+                        queryUpdate.ExecuteNonQuery();
                         return true;
                     }
                 }
