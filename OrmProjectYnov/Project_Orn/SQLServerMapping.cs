@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace Project_Orn
 {
-    class SQLServerMapping
+   public class SQLServerMapping
     {
+        #region OldCode
+        /*
         public void Connection()
         {
             // Instantiate the connection
@@ -173,5 +175,55 @@ namespace Project_Orn
             cmd.ExecuteNonQuery();
 
         }
+         */
+        #endregion
+        SqlConnection conn = new SqlConnection("Data Source=(local);Initial Catalog=orm;User ID=thomas;Password=thomas");
+
+        private static SqlConnection GetConnection(string server, string database, string user, string password)
+        {
+            return new SqlConnection(
+                $"Data Source={server};" +
+                $"Initial Catalog=={database};" +
+                $"User ID={user};" +
+                $"Password={password}");
+        }
+
+        public static bool CreateTableNextGen<T>(T obj)
+        {
+            MappingObject objectMapping = new MappingObject();
+            objectMapping = MappingOperations.GetTypeOfProSQLServer(obj);
+
+
+            string reqCreateTable = $"CREATE TABLE IF NOT EXISTS {objectMapping.ObjectName}(ID SERIAL PRIMARY KEY,";
+            for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
+            {
+                reqCreateTable += $"{objectMapping.PropertiesAttributes[i].NameInfo} {objectMapping.PropertiesAttributes[i].TypeInfo}";
+                if (i != objectMapping.PropertiesAttributes.Count() - 1)
+                {
+                    reqCreateTable += ",";
+                }
+            }
+
+            reqCreateTable += ")";
+            try
+            {
+
+                using (SqlConnection conn = GetConnection("(local)","testorm","dinesh","root1234"))
+                {
+                    conn.Open();
+                    using ( SqlCommand qureyToCreateTable = new SqlCommand(reqCreateTable, conn))
+                    {
+                        qureyToCreateTable.ExecuteNonQuery();
+                        return true;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
+
     }
 }

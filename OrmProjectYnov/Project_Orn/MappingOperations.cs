@@ -44,7 +44,6 @@ namespace Project_Orn
         internal static MappingObject GetTypeOfProMySQL<T>(T c)
         {
             MappingObject mappingObject = new MappingObject();
-            Console.WriteLine(c.GetType().Name);
             mappingObject.ObjectName = c.GetType().Name;
             mappingObject.PropertiesAttributes = new List<PropertyAttributes>();
             foreach (PropertyInfo propertyInfoObject in c.GetType().GetProperties())
@@ -102,7 +101,6 @@ namespace Project_Orn
         internal static MappingObject GetTypeOfProPostGre<T>(T c)
         {
             MappingObject mappingObject = new MappingObject();
-            Console.WriteLine(c.GetType().Name);
             mappingObject.ObjectName = c.GetType().Name;
             mappingObject.PropertiesAttributes = new List<PropertyAttributes>();
             foreach (PropertyInfo propertyInfoObject in c.GetType().GetProperties())
@@ -144,6 +142,63 @@ namespace Project_Orn
                     case "Double":
                         {
                             propertyAttributes.TypeInfo = "double precision";
+                            break;
+                        }
+                }
+
+                mappingObject.PropertiesAttributes.Add(propertyAttributes);
+            }
+
+
+
+            return mappingObject;
+
+        }
+
+        internal static MappingObject GetTypeOfProSQLServer<T>(T c)
+        {
+            MappingObject mappingObject = new MappingObject();
+            mappingObject.ObjectName = c.GetType().Name;
+            mappingObject.PropertiesAttributes = new List<PropertyAttributes>();
+            foreach (PropertyInfo propertyInfoObject in c.GetType().GetProperties())
+            {
+                PropertyAttributes propertyAttributes = new PropertyAttributes
+                {
+                    NameInfo = propertyInfoObject.Name,
+
+                    ValueInfo = propertyInfoObject.GetValue(c)
+                };
+
+                switch (propertyInfoObject.PropertyType.Name.ToString())
+                {
+                    case "Int32":
+                        {
+                            propertyAttributes.TypeInfo = "INT";
+                            break;
+                        }
+                    case "String":
+                        {
+                            propertyAttributes.TypeInfo = "TEXT";
+                            break;
+                        }
+                    case "DateTime":
+                        {
+                            propertyAttributes.TypeInfo = "DATETIME";
+                            break;
+                        }
+                    case "Boolean":
+                        {
+                            propertyAttributes.TypeInfo = "BIT";
+                            break;
+                        }
+                    case "Single":
+                        {
+                            propertyAttributes.TypeInfo = "REAL";
+                            break;
+                        }
+                    case "Double":
+                        {
+                            propertyAttributes.TypeInfo = "FLOAT";
                             break;
                         }
                 }

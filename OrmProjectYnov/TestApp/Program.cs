@@ -76,19 +76,35 @@ namespace TestApp
 
 
             //Test of PostGre
-            PostGreMapping.DropTableNextGen(new Voiture());
-            PostGreMapping.CreateTableNextGen(new Voiture());
-            PostGreMapping.InsertNextGen(ka);
-            PostGreMapping.InsertNextGen(mustang);
-            PostGreMapping.InsertNextGen(golf);
-            PostGreMapping.InsertNextGen(aventador);
-            List<Voiture> GarageFord2 = PostGreMapping.SelectTableNextGen("Brand", "Ford", new Voiture());
+            //PostGreMapping.DropTableNextGen(new Voiture());
+            //PostGreMapping.CreateTableNextGen(new Voiture());
+            //PostGreMapping.InsertNextGen(ka);
+            //PostGreMapping.InsertNextGen(mustang);
+            //PostGreMapping.InsertNextGen(golf);
+            //PostGreMapping.InsertNextGen(aventador);
+            //List<Voiture> GarageFord2 = PostGreMapping.SelectTableNextGen("Brand", "Ford", new Voiture());
 
-            PostGreMapping.DeleteElemetFromTableNextGen("Brand", "Lamborghini", new Voiture());
-            mustang.Power = 2500;
-            PostGreMapping.UpdateElementNextGen(2, mustang);
+            //PostGreMapping.DeleteElemetFromTableNextGen("Brand", "Lamborghini", new Voiture());
+            //mustang.Power = 2500;
+            //PostGreMapping.UpdateElementNextGen(2, mustang);
 
-            PostGreMapping.DropTableNextGen(new Voiture());
+
+
+
+            //Test of SQL Server 
+            // SQLServerMapping.DropTableNextGen(new Voiture());
+            SQLServerMapping.CreateTableNextGen(new Voiture());
+            // SQLServerMapping.InsertNextGen(ka);
+            // SQLServerMapping.InsertNextGen(mustang);
+            // SQLServerMapping.InsertNextGen(golf);
+            // SQLServerMapping.InsertNextGen(aventador);
+
+            // List<Voiture> GarageFord = SQLServerMapping.SelectTableNextGen("Brand", "Ford", new Voiture());
+            //// SQLServerMapping.DeleteElemetFromTableNextGen("Brand", "Ford", new Voiture());
+            // ka.Power = 250;
+            // SQLServerMapping.UpdateElementNextGen(4, ka);
+            // SQLServerMapping.DeleteElemetFromTableNextGen("Brand", "Lamborghini", new Voiture());
+
             Console.WriteLine("End");
 
 

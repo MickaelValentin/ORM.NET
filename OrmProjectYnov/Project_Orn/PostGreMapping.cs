@@ -11,6 +11,9 @@ namespace Project_Orn
 {
     public static class PostGreMapping
     {
+
+        #region OldCode
+        /*
         public static void Select()
         {
 
@@ -269,6 +272,9 @@ namespace Project_Orn
             }
 
         }
+        */
+        #endregion
+
         public static bool InsertNextGen<T>(T obj)
         {
             MappingObject objectMapping = new MappingObject();
