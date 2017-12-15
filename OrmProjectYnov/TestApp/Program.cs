@@ -42,7 +42,7 @@ namespace TestApp
                 Brand = "Volkswagen",
                 Model = "Golf 7",
                 CreateDate = DateTime.Today,
-                Distance = 2500,
+                Distance = 25324,
                 Power = 120,
                 Sizecar = 4.25,
                 Isitok = true
@@ -79,17 +79,19 @@ namespace TestApp
 
 
             //Test of PostGre
-            //PostGreMapping.DropTableNextGen(new Voiture());
-            //PostGreMapping.CreateTableNextGen(new Voiture());
-            //PostGreMapping.InsertNextGen(ka);
-            //PostGreMapping.InsertNextGen(mustang);
-            //PostGreMapping.InsertNextGen(golf);
-            //PostGreMapping.InsertNextGen(aventador);
-            //List<Voiture> GarageFord2 = PostGreMapping.SelectTableNextGen("Brand", "Ford", new Voiture());
+            ConnectionPostGre PostGreConnection = new ConnectionPostGre("PostgreSQL Unicode", "localhost", "5432",
+                                                                        "testorm", "postgres", "root");
+            PostGreMapping.DropTableNextGen(PostGreConnection,new Voiture());
+            PostGreMapping.CreateTableNextGen(PostGreConnection,new Voiture());
+            PostGreMapping.InsertNextGen(PostGreConnection,ka);
+            PostGreMapping.InsertNextGen(PostGreConnection,mustang);
+            PostGreMapping.InsertNextGen(PostGreConnection,golf);
+            PostGreMapping.InsertNextGen(PostGreConnection,aventador);
+            List<Voiture> GarageFord2 = PostGreMapping.SelectTableNextGen(PostGreConnection,"Brand", "Ford", new Voiture());
 
-            //PostGreMapping.DeleteElemetFromTableNextGen("Brand", "Lamborghini", new Voiture());
-            //mustang.Power = 2500;
-            //PostGreMapping.UpdateElementNextGen(2, mustang);
+            PostGreMapping.DeleteElemetFromTableNextGen(PostGreConnection,"Brand", "Lamborghini", new Voiture());
+            mustang.Power = 2501;
+            PostGreMapping.UpdateElementNextGen(PostGreConnection,2, mustang);
 
 
 

@@ -51,6 +51,7 @@
     <Compile Include="SQLServerMapping.cs" />
     <Compile Include="MappingObject.cs" />
     <Compile Include="MySqlMapping.cs" />
+    <Compile Include="ConnectionPostGre.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
