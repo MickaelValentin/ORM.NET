@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Odbc;
 using System.Linq;
 using System.Reflection;
@@ -196,7 +197,7 @@ namespace Project_Orn
 
             // 1. Instantiate the connection
             OdbcConnection conn = new OdbcConnection(
-                "Driver={PostgreSQL ODBC Driver(UNICODE)};Server=localhost;Port=5432;Database=orm;UID=mickaël;PWD=170514");
+                "Driver={PostgreSQL Unicode ;Server=localhost;Port=5432;Database=orm;UID=mickaël;PWD=170514");
 
 
             try
@@ -268,59 +269,274 @@ namespace Project_Orn
             }
 
         }
-
-    /*    public static MappingObject GetTypeOfPro<T>(T c)
+        public static bool InsertNextGen<T>(T obj)
         {
-            MappingObject mappingObject = new MappingObject();
-            Console.WriteLine(c.GetType().Name);
-
-            mappingObject.ObjectName = c.GetType().ToString();
-            foreach (PropertyInfo propertyInfoObject in c.GetType().GetProperties())
+            MappingObject objectMapping = new MappingObject();
+            objectMapping = MappingOperations.GetTypeOfProPostGre(obj);
+            string reqInsertElement = $" INSERT INTO {objectMapping.ObjectName} VALUES(NULL,";
+            for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
             {
-
-                switch (propertyInfoObject.PropertyType.Name.ToString())
+                if (i == objectMapping.PropertiesAttributes.Count() - 1)
                 {
-                    case "Int32":
-                        {
-                            mappingObject.PropertyInfos.Add(key: propertyInfoObject.Name, value: "integer");
-                            break;
-                        }
-                    case "String":
-                        {
-                            mappingObject.PropertyInfos.Add(key: propertyInfoObject.Name, value: "varchar(225)");
-                            break;
-                        }
-                    case "DateTime":
-                        {
-                            mappingObject.PropertyInfos.Add(key: propertyInfoObject.Name, value: "date");
-                            break;
-                        }
-                    case "Boolean":
-                        {
-                            mappingObject.PropertyInfos.Add(key: propertyInfoObject.Name, value: "boolean");
-                            break;
-                        }
-                    case "Single":
-                        {
-                            mappingObject.PropertyInfos.Add(key: propertyInfoObject.Name, value: "float4");
-                            break;
-                        }
-                    case "Double":
-                        {
-                            mappingObject.PropertyInfos.Add(key: propertyInfoObject.Name, value: "float8");
-                            break;
-                        }
+                    reqInsertElement += "?";
                 }
-                //String propertyName = propertyInfoObject.Name;
-                //Console.WriteLine("La valeur est {0}",propertyName);
-                //String propertytype = propertyInfoObject.PropertyType.Name.ToString();
-                // Console.WriteLine("La valeur est {0}", propertyInfoObject.PropertyType.Name.ToString());
+                else
+                {
+                    reqInsertElement += "?,";
+                }
+            }
+            reqInsertElement += ")";
+
+            try
+            {
+                using (OdbcConnection conn = GetConnection("PostgreSQL UNICODE)", "localhost", "5432",
+   "test", "postgres", "root"))
+                {
+                    conn.Open();
+                    using (OdbcCommand qureyToInsert = new OdbcCommand(reqInsertElement, conn))
+                    {
+                        for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
+                        {
+                            PropertyAttributes infoFormapping = objectMapping.PropertiesAttributes[i];
+                            qureyToInsert.Parameters.AddWithValue($"{infoFormapping.NameInfo}", infoFormapping.ValueInfo);
+                        }
+                        qureyToInsert.Prepare();
+                        qureyToInsert.ExecuteNonQuery();
+                        return true;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
+
+        public static bool CreateTableNextGen<T>(T obj)
+        {
+            MappingObject objectMapping = new MappingObject();
+            objectMapping = MappingOperations.GetTypeOfProPostGre(obj);
+
+
+            string reqCreateTable = $"CREATE TABLE IF NOT EXISTS {objectMapping.ObjectName}(ID SERIAL PRIMARY KEY,";
+            for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
+            {
+                reqCreateTable += $"{objectMapping.PropertiesAttributes[i].NameInfo} {objectMapping.PropertiesAttributes[i].TypeInfo}";
+                if (i != objectMapping.PropertiesAttributes.Count() - 1)
+                {
+                    reqCreateTable += ",";
+                }
             }
 
-            return mappingObject;
+            reqCreateTable += ")";
+            try
+            {
 
+                using (OdbcConnection conn = GetConnection("PostgreSQL Unicode", "localhost", "5432",
+                   "testorm", "postgres", "root"))
+                {
+                    conn.Open();
+                    using (OdbcCommand qureyToCreateTable = new OdbcCommand(reqCreateTable, conn))
+                    {
+                        qureyToCreateTable.ExecuteNonQuery();
+                        return true;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
         }
-        */
+
+        public static List<T> SelectTableNextGen<T>(string column, string value, T table)
+        {
+            string reqSelectElement;
+            if (table.GetType().Name == null)
+            {
+                Console.WriteLine("obj not found");
+                return null;
+            }
+            bool isAProperty = false;
+            foreach (PropertyInfo item in table.GetType().GetProperties())
+            {
+                if (column.Equals(item.Name))
+                {
+                    isAProperty = true;
+                    break;
+                }
+            }
+            if (isAProperty == false)
+            {
+                Console.WriteLine("property obj not found");
+                return null;
+            }
+
+            if (value == null || column == null)
+            {
+                reqSelectElement = $"SELECT * FROM {table.GetType().Name.ToString()}";
+            }
+            else
+            {
+                reqSelectElement = $"SELECT * FROM {table.GetType().Name.ToString()} WHERE {column} = ?";
+            }
+
+            try
+            {
+                using (OdbcConnection conn = GetConnection("PostgreSQL ODBC Driver(UNICODE)", "localhost", "5432",
+                             "test", "root", "root"))
+                {
+                    conn.Open();
+                    using (OdbcCommand queryToSelectElement = new OdbcCommand(reqSelectElement, conn))
+                    {
+                        queryToSelectElement.Parameters.AddWithValue(column, value);
+                        queryToSelectElement.Prepare();
+                        OdbcDataReader dr = queryToSelectElement.ExecuteReader();
+                        DataTable dt = new DataTable();
+                        dt.Load(dr);
+                        List<T> list = MappingOperations.MapList(dt, table);
+                        return list;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+
+        public static bool DeleteElemetFromTableNextGen<T>(string column, string value, T table)
+        {
+            if (table.GetType().Name == null)
+            {
+                Console.WriteLine("obj not found");
+                return false;
+            }
+            bool isAProperty = false;
+            foreach (PropertyInfo item in table.GetType().GetProperties())
+            {
+                if (column.Equals(item.Name))
+                {
+                    isAProperty = true;
+                    break;
+                }
+            }
+            if (isAProperty == false)
+            {
+                Console.WriteLine("property obj not found");
+                return false;
+            }
+            string reqDelete = $"DELETE FROM {table.GetType().Name.ToString()} WHERE {column} = ?";
+            try
+            {
+                using (OdbcConnection conn = GetConnection("PostgreSQL ODBC Driver(UNICODE)", "localhost", "5432",
+        "test", "root", "root"))
+                {
+                    conn.Open();
+                    using (OdbcCommand queryToDeleteElement = new OdbcCommand(reqDelete, conn))
+                    {
+                        queryToDeleteElement.Parameters.AddWithValue(column, value);
+                        queryToDeleteElement.Prepare();
+                        queryToDeleteElement.ExecuteNonQuery();
+                        return true;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
+
+        public static bool DropTableNextGen<T>(T obj)
+        {
+            MappingObject objectMapping = new MappingObject();
+            objectMapping = MappingOperations.GetTypeOfProPostGre(obj);
+            string reqDropTable = $"DROP TABLE IF EXISTS {objectMapping.ObjectName}";
+            try
+            {
+                using (OdbcConnection conn = GetConnection("PostgreSQL ODBC Driver(UNICODE)", "localhost", "5432",
+                   "test", "root", "root"))
+                {
+                    conn.Open();
+
+                    using (OdbcCommand queryToDropTable = new OdbcCommand(reqDropTable, conn))
+                    {
+                        queryToDropTable.ExecuteNonQuery();
+                        return true;
+                    }
+                }
+            }
+            catch (Exception c)
+            {
+                Console.WriteLine(c);
+                return false;
+
+            }
+        }
+
+        public static bool UpdateElementNextGen<T>(int id, T table)
+        {
+            if (table.GetType().Name == null)
+            {
+                Console.WriteLine("obj not found");
+                return false;
+
+            }
+            MappingObject objectMapping = new MappingObject();
+            objectMapping = MappingOperations.GetTypeOfProPostGre(table);
+            string reqUpdate = $"UPDATE  {table.GetType().Name.ToString()} SET ";
+            for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
+            {
+                reqUpdate += $"{objectMapping.PropertiesAttributes[i].NameInfo}= ?";
+                if (i != objectMapping.PropertiesAttributes.Count() - 1)
+                {
+                    reqUpdate += ",";
+                }
+            }
+            reqUpdate += $" WHERE id = ?";
+            try
+            {
+                using (OdbcConnection conn = GetConnection("PostgreSQL ODBC Driver(UNICODE)", "localhost", "5432",
+                 "test", "postgres", "root"))
+                {
+                    conn.Open();
+                    using (OdbcCommand qureyUpdate = new OdbcCommand(reqUpdate, conn))
+                    {
+                        for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
+                        {
+                            PropertyAttributes infoFormapping = objectMapping.PropertiesAttributes[i];
+                            qureyUpdate.Parameters.AddWithValue($"{infoFormapping.NameInfo}", infoFormapping.ValueInfo);
+                        }
+                        qureyUpdate.Parameters.AddWithValue($"id", id);
+                        qureyUpdate.Prepare();
+                        qureyUpdate.ExecuteNonQuery();
+                        return true;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+            }
+        }
+
+        private static OdbcConnection GetConnection(string driver, string server, string port,
+            string database, string user, string password)
+        {
+            return new OdbcConnection(
+                $"DRIVER={{{driver}}};" +
+                $"SERVER={server};" +
+                $"PORT={port};" +
+                $"DATABASE={database};" +
+                $"Uid={user};" +
+                $"Pwd={password}");
+        }
     }
 
 }

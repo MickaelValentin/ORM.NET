@@ -34,23 +34,12 @@ namespace ConsoleAppBach3
             MySqlMapping.InsertNextGen(ford);
             
             List<Voiture> Garage = MySqlMapping.SelectTableNextGen("Brand", "Ford", new Voiture());
-
-            foreach (Voiture item in Garage)
-            {
-                Console.WriteLine(item.Brand);
-                Console.WriteLine(item.CreateDate);
-                Console.WriteLine(item.Distance);
-                Console.WriteLine(item.Power);
-                Console.WriteLine(item.Sizecar);
-                Console.WriteLine(item.Isitok);
-
-            }
-            Console.ReadKey();
           //  MySQL.DeleteElemetFromTableNextGen("Brand", "Ford", new Voiture());
             ford.Power = 250;
             MySqlMapping.UpdateElementNextGen(4, ford);
+            PostGreMapping.CreateTableNextGen(ford);
+          //  MySqlMapping.DropTableNextGen(new Voiture());
             Console.ReadKey();
-        //    MySQL.DropTableNextGen(new Voiture());
 
             /*   
                 while (true)

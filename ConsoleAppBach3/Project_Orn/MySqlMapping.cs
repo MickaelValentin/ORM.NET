@@ -13,7 +13,8 @@ namespace Project_Orn
 {
     public static class MySqlMapping
     {
-
+        #region Old Code
+        /*
         public static void createSqlTable()
         {
             OdbcConnection conn = new OdbcConnection(
@@ -66,7 +67,8 @@ namespace Project_Orn
                 OdbcCommand cmd = new OdbcCommand($"CREATE TABLE {nomTable} ({nomAllCol})", conn);
                 cmd.ExecuteNonQuery();
 
-                Console.WriteLine("La table à bien été créer");
+                
+e.WriteLine("La table à bien été créer");
             }
 
             finally
@@ -257,87 +259,85 @@ namespace Project_Orn
                 }
             }
         }
-
-        public static void InsertNextGen<T>(T obj)
+        */
+        #endregion
+        public static bool InsertNextGen<T>(T obj)
         {
-
             MappingObject objectMapping = new MappingObject();
-            objectMapping = MySqlMapping.GetTypeOfPro(obj);
-
-            OdbcConnection conn = GetConnection();
-
-            string req = $" INSERT INTO {objectMapping.ObjectName} VALUES(NULL,";
+            objectMapping = MappingOperations.GetTypeOfProMySQL(obj);
+            string reqInsertElement = $" INSERT INTO {objectMapping.ObjectName} VALUES(NULL,";
             for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
             {
                 if (i == objectMapping.PropertiesAttributes.Count() - 1)
                 {
-                    req += "?";
+                    reqInsertElement += "?";
                 }
                 else
                 {
-                    req += "?,";
+                    reqInsertElement += "?,";
                 }
             }
-            req += ")";
+            reqInsertElement += ")";
 
-            OdbcCommand qureyToInsert = new OdbcCommand(req, conn);
-            for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
-            {
-                PropertyAttributes infoFormapping = objectMapping.PropertiesAttributes[i];
-                qureyToInsert.Parameters.AddWithValue($"{infoFormapping.NameInfo}", infoFormapping.ValueInfo);
-            }
             try
             {
-                conn.Open();
-
-                //  Prepare command not supported in ODBC
-                qureyToInsert.Prepare();
-                qureyToInsert.ExecuteNonQuery();
-                //  Data to be inserted
-            }
-            finally
-            {
-                if (conn != null)
+                using (OdbcConnection conn = GetConnection("MySQL ODBC 5.3 ANSI Driver", "localhost",
+                    "test", "root", "root"))
                 {
-                    conn.Close();
+                    conn.Open();
+                    using (OdbcCommand qureyToInsert = new OdbcCommand(reqInsertElement, conn))
+                    {
+                        for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
+                        {
+                            PropertyAttributes infoFormapping = objectMapping.PropertiesAttributes[i];
+                            qureyToInsert.Parameters.AddWithValue($"{infoFormapping.NameInfo}", infoFormapping.ValueInfo);
+                        }
+                        qureyToInsert.Prepare();
+                        qureyToInsert.ExecuteNonQuery();
+                        return true;
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
             }
         }
 
-        public static void CreateTableNextGen<T>(T obj)
+        public static bool CreateTableNextGen<T>(T obj)
         {
             MappingObject objectMapping = new MappingObject();
-            objectMapping = GetTypeOfPro(obj);
-            OdbcConnection conn = GetConnection();
-
-            string req = $"CREATE TABLE IF NOT EXISTS {objectMapping.ObjectName}(ID int NOT NULL AUTO_INCREMENT,";
+            objectMapping = MappingOperations.GetTypeOfProMySQL(obj);
+            string reqCreateTable = $"CREATE TABLE IF NOT EXISTS {objectMapping.ObjectName}(ID int NOT NULL AUTO_INCREMENT,";
             for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
             {
-                req += $"{objectMapping.PropertiesAttributes[i].NameInfo} {objectMapping.PropertiesAttributes[i].TypeInfo},";
+                reqCreateTable += $"{objectMapping.PropertiesAttributes[i].NameInfo} {objectMapping.PropertiesAttributes[i].TypeInfo},";
             }
-            req += "PRIMARY KEY(ID))";
-
+            reqCreateTable += "PRIMARY KEY(ID))";
             try
             {
-                conn.Open();
-                OdbcCommand cmd = new OdbcCommand(req, conn);
-                cmd.ExecuteNonQuery();
-            }
-            finally
-            {
-                if (conn != null)
+                using (OdbcConnection conn = GetConnection("MySQL ODBC 5.3 ANSI Driver", "localhost",
+                   "test", "root", "root"))
                 {
-                    conn.Close();
+                    conn.Open();
+                    using (OdbcCommand qureyToCreateTable = new OdbcCommand(reqCreateTable, conn))
+                    {
+                        qureyToCreateTable.ExecuteNonQuery();
+                        return true;
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
             }
         }
 
         public static List<T> SelectTableNextGen<T>(string column, string value, T table)
         {
-
-            OdbcConnection conn = GetConnection();
-
-            string req;
+            string reqSelectElement;
             if (table.GetType().Name == null)
             {
                 Console.WriteLine("obj not found");
@@ -360,47 +360,44 @@ namespace Project_Orn
 
             if (value == null || column == null)
             {
-                req = $"SELECT * FROM {table.GetType().Name.ToString()}";
+                reqSelectElement = $"SELECT * FROM {table.GetType().Name.ToString()}";
             }
-
             else
             {
-                req = $"SELECT * FROM {table.GetType().Name.ToString()} WHERE {column} = ?";
+                reqSelectElement = $"SELECT * FROM {table.GetType().Name.ToString()} WHERE {column} = ?";
             }
 
             try
             {
-                conn.Open();
-                using (OdbcCommand cmd = new OdbcCommand(req, conn))
+                using (OdbcConnection conn = GetConnection("MySQL ODBC 5.3 ANSI Driver", "localhost",
+                             "test", "root", "root"))
                 {
-                    cmd.Parameters.AddWithValue(column, value);
-                    cmd.Prepare();
-                    OdbcDataReader dr = cmd.ExecuteReader();
-                    DataTable dt = new DataTable();
-                    dt.Load(dr);
-                    List<T> list = MapList(dt, table);
-                    return list;
+                    conn.Open();
+                    using (OdbcCommand queryToSelectElement = new OdbcCommand(reqSelectElement, conn))
+                    {
+                        queryToSelectElement.Parameters.AddWithValue(column, value);
+                        queryToSelectElement.Prepare();
+                        OdbcDataReader dr = queryToSelectElement.ExecuteReader();
+                        DataTable dt = new DataTable();
+                        dt.Load(dr);
+                        List<T> list = MappingOperations.MapList(dt, table);
+                        return list;
+                    }
                 }
             }
-            finally
+            catch (Exception e)
             {
-                if (conn != null)
-                {
-                    conn.Close();
-                }
+                Console.WriteLine(e);
+                return null;
             }
         }
 
         public static bool DeleteElemetFromTableNextGen<T>(string column, string value, T table)
         {
-            OdbcConnection conn = GetConnection();
-
-
             if (table.GetType().Name == null)
             {
                 Console.WriteLine("obj not found");
                 return false;
-
             }
             bool isAProperty = false;
             foreach (PropertyInfo item in table.GetType().GetProperties())
@@ -415,62 +412,59 @@ namespace Project_Orn
             {
                 Console.WriteLine("property obj not found");
                 return false;
-
             }
-
             string reqDelete = $"DELETE FROM {table.GetType().Name.ToString()} WHERE {column} = ?";
             try
             {
-                conn.Open();
-                using (OdbcCommand cmd = new OdbcCommand(reqDelete, conn))
+                using (OdbcConnection conn = GetConnection("MySQL ODBC 5.3 ANSI Driver", "localhost",
+                   "test", "root", "root"))
                 {
-                    cmd.Parameters.AddWithValue(column, value);
-                    cmd.Prepare();
-                    cmd.ExecuteNonQuery();
-                    return true;
+                    conn.Open();
+                    using (OdbcCommand queryToDeleteElement = new OdbcCommand(reqDelete, conn))
+                    {
+                        queryToDeleteElement.Parameters.AddWithValue(column, value);
+                        queryToDeleteElement.Prepare();
+                        queryToDeleteElement.ExecuteNonQuery();
+                        return true;
+                    }
                 }
             }
-            finally
+            catch (Exception e)
             {
-                if (conn != null)
-                {
-                    conn.Close();
-                }
-
-
-
+                Console.WriteLine(e);
+                return false;
             }
-
         }
 
-        public static void DropTableNextGen<T>(T obj)
+        public static bool DropTableNextGen<T>(T obj)
         {
             MappingObject objectMapping = new MappingObject();
-            objectMapping = GetTypeOfPro(obj);
-            OdbcConnection conn = GetConnection();
-            string req = $"DROP TABLE IF EXISTS {objectMapping.ObjectName}";
+            objectMapping = MappingOperations.GetTypeOfProMySQL(obj);
+            string reqDropTable = $"DROP TABLE IF EXISTS {objectMapping.ObjectName}";
             try
             {
-                conn.Open();
-                OdbcCommand cmd = new OdbcCommand(req, conn);
-                cmd.ExecuteNonQuery();
-            }
-            finally
-            {
-                if (conn != null)
+                using (OdbcConnection conn = GetConnection("MySQL ODBC 5.3 ANSI Driver", "localhost",
+                     "test", "root", "root"))
                 {
-                    conn.Close();
+                    conn.Open();
+
+                    using (OdbcCommand queryToDropTable = new OdbcCommand(reqDropTable, conn))
+                    {
+                        queryToDropTable.ExecuteNonQuery();
+                        return true;
+                    }
                 }
+            }
+            catch (Exception c)
+            {
+                Console.WriteLine(c);
+                return false;
+
             }
         }
 
         public static bool UpdateElementNextGen<T>(int id, T table)
         {
-
-            OdbcConnection conn = GetConnection();
-
-
-
             if (table.GetType().Name == null)
             {
                 Console.WriteLine("obj not found");
@@ -478,14 +472,10 @@ namespace Project_Orn
 
             }
             MappingObject objectMapping = new MappingObject();
-            objectMapping = MySqlMapping.GetTypeOfPro(table);
-
-
+            objectMapping = MappingOperations.GetTypeOfProMySQL(table);
             string reqUpdate = $"UPDATE  {table.GetType().Name.ToString()} SET ";
-
             for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
             {
-                Console.WriteLine(objectMapping.PropertiesAttributes.Count());
                 reqUpdate += $"{objectMapping.PropertiesAttributes[i].NameInfo}= ?";
                 if (i != objectMapping.PropertiesAttributes.Count() - 1)
                 {
@@ -493,122 +483,45 @@ namespace Project_Orn
                 }
             }
             reqUpdate += $" WHERE id = ?";
-            OdbcCommand qureyUpdate = new OdbcCommand(reqUpdate, conn);
-            for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
-            {
-                PropertyAttributes infoFormapping = objectMapping.PropertiesAttributes[i];
-                qureyUpdate.Parameters.AddWithValue($"{infoFormapping.NameInfo}", infoFormapping.ValueInfo);
-            }
-            qureyUpdate.Parameters.AddWithValue($"id", id);
             try
             {
-
-                conn.Open();
-                qureyUpdate.Prepare();
-                qureyUpdate.ExecuteNonQuery();
-                return true;
-
-            }
-            finally
-            {
-                if (conn != null)
+                using (OdbcConnection conn = GetConnection("MySQL ODBC 5.3 ANSI Driver", "localhost",
+                   "test", "root", "root"))
                 {
-                    conn.Close();
+                    conn.Open();
+                    using (OdbcCommand qureyUpdate = new OdbcCommand(reqUpdate, conn))
+                    {
+                        for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
+                        {
+                            PropertyAttributes infoFormapping = objectMapping.PropertiesAttributes[i];
+                            qureyUpdate.Parameters.AddWithValue($"{infoFormapping.NameInfo}", infoFormapping.ValueInfo);
+                        }
+                        qureyUpdate.Parameters.AddWithValue($"id", id);
+                        qureyUpdate.Prepare();
+                        qureyUpdate.ExecuteNonQuery();
+                        return true;
+                    }
                 }
-
             }
-
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+            }
         }
 
-        private static OdbcConnection GetConnection()
+        private static OdbcConnection GetConnection(string driver, string server,
+            string database, string user, string password)
         {
             return new OdbcConnection(
-                "DRIVER={MySQL ODBC 5.3 ANSI Driver};" +
-                "SERVER=localhost;" +
-                "DATABASE=test;" +
-                "USER=root;" +
-                "PASSWORD=root");
-        }
-        private static List<T> MapList<T>(DataTable dt, T c)
-        {
-            List<T> list = new List<T>();
-
-            PropertyInfo[] propertyInfoObject = c.GetType().GetProperties();
-            T t = Activator.CreateInstance<T>();
-
-            foreach (DataRow dr in dt.Rows)
-            {
-
-                foreach (PropertyInfo fi in propertyInfoObject)
-                {
-                    fi.SetValue(t, dr[fi.Name]);
-                }
-
-
-                list.Add(t);
-
-            }
-
-            return list;
+                $"DRIVER={{{driver}}};" +
+                $"SERVER={server};" +
+                $"DATABASE={database};" +
+                $"USER={user};" +
+                $"PASSWORD={password}");
         }
 
-        public static MappingObject GetTypeOfPro<T>(T c)
-        {
-            MappingObject mappingObject = new MappingObject();
-            Console.WriteLine(c.GetType().Name);
-            mappingObject.ObjectName = c.GetType().Name;
-            mappingObject.PropertiesAttributes = new List<PropertyAttributes>();
-            foreach (PropertyInfo propertyInfoObject in c.GetType().GetProperties())
-            {
-                PropertyAttributes propertyAttributes = new PropertyAttributes
-                {
-                    NameInfo = propertyInfoObject.Name,
 
-                    ValueInfo = propertyInfoObject.GetValue(c)
-                };
-
-                switch (propertyInfoObject.PropertyType.Name.ToString())
-                {
-                    case "Int32":
-                        {
-                            propertyAttributes.TypeInfo = "INT";
-                            break;
-                        }
-                    case "String":
-                        {
-                            propertyAttributes.TypeInfo = "MEDIUMTEXT";
-                            break;
-                        }
-                    case "DateTime":
-                        {
-                            propertyAttributes.TypeInfo = "DATETIME";
-                            break;
-                        }
-                    case "Boolean":
-                        {
-                            propertyAttributes.TypeInfo = "BIT";
-                            break;
-                        }
-                    case "Single":
-                        {
-                            propertyAttributes.TypeInfo = "FLOAT";
-                            break;
-                        }
-                    case "Double":
-                        {
-                            propertyAttributes.TypeInfo = "DOUBLE";
-                            break;
-                        }
-                }
-
-                mappingObject.PropertiesAttributes.Add(propertyAttributes);
-            }
-
-
-
-            return mappingObject;
-
-        }
 
 
 
