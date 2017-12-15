@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using Project_Orn;
+using System.Data.SqlClient;
+using System.Data.Odbc;
 
 namespace TestApp
 {
@@ -59,18 +61,19 @@ namespace TestApp
 
 
             //Test of MySQL 
-            // MySqlMapping.DropTableNextGen(new Voiture());
-            // MySqlMapping.CreateTableNextGen(new Voiture());
-            // MySqlMapping.InsertNextGen(ka);
-            // MySqlMapping.InsertNextGen(mustang);
-            // MySqlMapping.InsertNextGen(golf);
-            // MySqlMapping.InsertNextGen(aventador);
-
-            // List<Voiture> GarageFord = MySqlMapping.SelectTableNextGen("Brand", "Ford", new Voiture());
-            //// MySqlMapping.DeleteElemetFromTableNextGen("Brand", "Ford", new Voiture());
-            // ka.Power = 250;
-            // MySqlMapping.UpdateElementNextGen(4, ka);
-            // MySqlMapping.DeleteElemetFromTableNextGen("Brand", "Lamborghini", new Voiture());
+            ConnectionMySql MysqlConnection = new ConnectionMySql("MySQL ODBC 5.3 ANSI Driver", "localhost",
+                                                                        "test", "root", "root");
+         
+             MySqlMapping.DropTableNextGen(MysqlConnection, new Voiture());
+             MySqlMapping.CreateTableNextGen(MysqlConnection,new Voiture());
+             MySqlMapping.InsertNextGen(MysqlConnection,ka);
+             MySqlMapping.InsertNextGen(MysqlConnection,mustang);
+             MySqlMapping.InsertNextGen(MysqlConnection,golf);
+             MySqlMapping.InsertNextGen(MysqlConnection,aventador);
+             List<Voiture> GarageFord = MySqlMapping.SelectTableNextGen(MysqlConnection,"Brand", "Ford", new Voiture());
+             ka.Power = 250;
+             MySqlMapping.UpdateElementNextGen(MysqlConnection,1, ka);
+             MySqlMapping.DeleteElemetFromTableNextGen(MysqlConnection,"Brand", "Lamborghini", new Voiture());
 
 
 
@@ -92,8 +95,8 @@ namespace TestApp
 
 
             //Test of SQL Server 
-            // SQLServerMapping.DropTableNextGen(new Voiture());
-            SQLServerMapping.CreateTableNextGen(new Voiture());
+           // SqlConnection connSql = SQLServerMapping.GetConnection("(local)", "testorm", "dinesh", "root1234");            // SQLServerMapping.DropTableNextGen(new Voiture());
+           // SQLServerMapping.CreateTableNextGen(connSql,new Voiture());
             // SQLServerMapping.InsertNextGen(ka);
             // SQLServerMapping.InsertNextGen(mustang);
             // SQLServerMapping.InsertNextGen(golf);

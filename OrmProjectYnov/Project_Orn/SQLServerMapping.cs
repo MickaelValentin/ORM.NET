@@ -177,24 +177,22 @@ namespace Project_Orn
         }
          */
         #endregion
-        SqlConnection conn = new SqlConnection("Data Source=(local);Initial Catalog=orm;User ID=thomas;Password=thomas");
 
-        private static SqlConnection GetConnection(string server, string database, string user, string password)
+        public static SqlConnection GetConnection(string server, string database, string user, string password)
         {
             return new SqlConnection(
                 $"Data Source={server};" +
-                $"Initial Catalog=={database};" +
+                $"Initial Catalog={database};" +
                 $"User ID={user};" +
                 $"Password={password}");
         }
 
-        public static bool CreateTableNextGen<T>(T obj)
+        public static bool CreateTableNextGen<T>(SqlConnection connection,T obj)
         {
             MappingObject objectMapping = new MappingObject();
             objectMapping = MappingOperations.GetTypeOfProSQLServer(obj);
 
-
-            string reqCreateTable = $"CREATE TABLE IF NOT EXISTS {objectMapping.ObjectName}(ID SERIAL PRIMARY KEY,";
+            string reqCreateTable = $"CREATE TABLE  {objectMapping.ObjectName}(ID INT PRIMARY KEY,";
             for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
             {
                 reqCreateTable += $"{objectMapping.PropertiesAttributes[i].NameInfo} {objectMapping.PropertiesAttributes[i].TypeInfo}";
@@ -207,13 +205,56 @@ namespace Project_Orn
             reqCreateTable += ")";
             try
             {
-
-                using (SqlConnection conn = GetConnection("(local)","testorm","dinesh","root1234"))
+                using (SqlConnection conn = connection)
                 {
                     conn.Open();
                     using ( SqlCommand qureyToCreateTable = new SqlCommand(reqCreateTable, conn))
                     {
                         qureyToCreateTable.ExecuteNonQuery();
+                        return true;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Console.ReadKey();
+                return false;
+            }
+        }
+
+        public static bool InsertNextGen<T>(SqlConnection connection,T obj)
+        {
+            MappingObject objectMapping = new MappingObject();
+            objectMapping = MappingOperations.GetTypeOfProSQLServer(obj);
+            string reqInsertElement = $" INSERT INTO {objectMapping.ObjectName} VALUES(DEFAULT,";
+            for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
+            {
+                if (i == objectMapping.PropertiesAttributes.Count() - 1)
+                {
+                    reqInsertElement += "?";
+                }
+                else
+                {
+                    reqInsertElement += "?,";
+                }
+            }
+            reqInsertElement += ")";
+
+            try
+            {
+                using (SqlConnection conn = connection)
+                {
+                    conn.Open();
+                    using (SqlCommand qureyToInsert = new SqlCommand(reqInsertElement, conn))
+                    {
+                        for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
+                        {
+                            PropertyAttributes infoFormapping = objectMapping.PropertiesAttributes[i];
+                            qureyToInsert.Parameters.AddWithValue($"{infoFormapping.NameInfo}", infoFormapping.ValueInfo);
+                        }
+                        qureyToInsert.Prepare();
+                        qureyToInsert.ExecuteNonQuery();
                         return true;
                     }
                 }

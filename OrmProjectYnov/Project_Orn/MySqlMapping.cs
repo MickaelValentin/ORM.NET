@@ -261,7 +261,7 @@ e.WriteLine("La table à bien été créer");
         }
         */
         #endregion
-        public static bool InsertNextGen<T>(T obj)
+        public static bool InsertNextGen<T>(ConnectionMySql connection, T obj)
         {
             MappingObject objectMapping = new MappingObject();
             objectMapping = MappingOperations.GetTypeOfProMySQL(obj);
@@ -281,8 +281,9 @@ e.WriteLine("La table à bien été créer");
 
             try
             {
-                using (OdbcConnection conn = GetConnection("MySQL ODBC 5.3 ANSI Driver", "localhost",
-                    "test", "root", "root"))
+                using (OdbcConnection conn = GetConnection(connection.Driver, connection.Server,
+                    connection.DataBase, connection.User, connection.Password))
+
                 {
                     conn.Open();
                     using (OdbcCommand qureyToInsert = new OdbcCommand(reqInsertElement, conn))
@@ -305,7 +306,7 @@ e.WriteLine("La table à bien été créer");
             }
         }
 
-        public static bool CreateTableNextGen<T>(T obj)
+        public static bool CreateTableNextGen<T>(ConnectionMySql connection, T obj)
         {
             MappingObject objectMapping = new MappingObject();
             objectMapping = MappingOperations.GetTypeOfProMySQL(obj);
@@ -317,8 +318,8 @@ e.WriteLine("La table à bien été créer");
             reqCreateTable += "PRIMARY KEY(ID))";
             try
             {
-                using (OdbcConnection conn = GetConnection("MySQL ODBC 5.3 ANSI Driver", "localhost",
-                   "test", "root", "root"))
+                using (OdbcConnection conn = GetConnection(connection.Driver, connection.Server,
+                  connection.DataBase, connection.User, connection.Password))
                 {
                     conn.Open();
                     using (OdbcCommand qureyToCreateTable = new OdbcCommand(reqCreateTable, conn))
@@ -335,7 +336,7 @@ e.WriteLine("La table à bien été créer");
             }
         }
 
-        public static List<T> SelectTableNextGen<T>(string column, string value, T table)
+        public static List<T> SelectTableNextGen<T>(ConnectionMySql connection, string column, string value, T table)
         {
             string reqSelectElement;
             if (table.GetType().Name == null)
@@ -369,8 +370,8 @@ e.WriteLine("La table à bien été créer");
 
             try
             {
-                using (OdbcConnection conn = GetConnection("MySQL ODBC 5.3 ANSI Driver", "localhost",
-                             "test", "root", "root"))
+                using (OdbcConnection conn = GetConnection(connection.Driver, connection.Server,
+     connection.DataBase, connection.User, connection.Password))
                 {
                     conn.Open();
                     using (OdbcCommand queryToSelectElement = new OdbcCommand(reqSelectElement, conn))
@@ -392,7 +393,7 @@ e.WriteLine("La table à bien été créer");
             }
         }
 
-        public static bool DeleteElemetFromTableNextGen<T>(string column, string value, T table)
+        public static bool DeleteElemetFromTableNextGen<T>(ConnectionMySql connection, string column, string value, T table)
         {
             if (table.GetType().Name == null)
             {
@@ -416,8 +417,8 @@ e.WriteLine("La table à bien été créer");
             string reqDelete = $"DELETE FROM {table.GetType().Name.ToString()} WHERE {column} = ?";
             try
             {
-                using (OdbcConnection conn = GetConnection("MySQL ODBC 5.3 ANSI Driver", "localhost",
-                   "test", "root", "root"))
+                using (OdbcConnection conn = GetConnection(connection.Driver, connection.Server,
+            connection.DataBase, connection.User, connection.Password))
                 {
                     conn.Open();
                     using (OdbcCommand queryToDeleteElement = new OdbcCommand(reqDelete, conn))
@@ -436,15 +437,15 @@ e.WriteLine("La table à bien été créer");
             }
         }
 
-        public static bool DropTableNextGen<T>(T obj)
+        public static bool DropTableNextGen<T>(ConnectionMySql connection, T obj)
         {
             MappingObject objectMapping = new MappingObject();
             objectMapping = MappingOperations.GetTypeOfProMySQL(obj);
             string reqDropTable = $"DROP TABLE IF EXISTS {objectMapping.ObjectName}";
             try
             {
-                using (OdbcConnection conn = GetConnection("MySQL ODBC 5.3 ANSI Driver", "localhost",
-                     "test", "root", "root"))
+                using (OdbcConnection conn = GetConnection(connection.Driver, connection.Server,
+                   connection.DataBase, connection.User, connection.Password))
                 {
                     conn.Open();
 
@@ -463,7 +464,7 @@ e.WriteLine("La table à bien été créer");
             }
         }
 
-        public static bool UpdateElementNextGen<T>(int id, T table)
+        public static bool UpdateElementNextGen<T>(ConnectionMySql connection, int id, T table)
         {
             if (table.GetType().Name == null)
             {
@@ -485,8 +486,8 @@ e.WriteLine("La table à bien été créer");
             reqUpdate += $" WHERE id = ?";
             try
             {
-                using (OdbcConnection conn = GetConnection("MySQL ODBC 5.3 ANSI Driver", "localhost",
-                   "test", "root", "root"))
+                using (OdbcConnection conn = GetConnection(connection.Driver, connection.Server,
+                 connection.DataBase, connection.User, connection.Password))
                 {
                     conn.Open();
                     using (OdbcCommand qureyUpdate = new OdbcCommand(reqUpdate, conn))
@@ -510,7 +511,7 @@ e.WriteLine("La table à bien été créer");
             }
         }
 
-        private static OdbcConnection GetConnection(string driver, string server,
+        public static OdbcConnection GetConnection(string driver, string server,
             string database, string user, string password)
         {
             return new OdbcConnection(

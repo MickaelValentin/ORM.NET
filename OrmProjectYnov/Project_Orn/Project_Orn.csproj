@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConnectionMySql.cs" />
     <Compile Include="MappingOperations.cs" />
     <Compile Include="PostGreMapping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
