@@ -189,6 +189,18 @@ namespace Project_Orn
                 $"Password={password}");
         }
 
+
+        /// <summary>
+        /// Méthode Create
+        /// </summary>
+        /// <typeparam name="T">Paramètre générique</typeparam>
+        /// <param name="table">Table</param>
+        /// <typeparam name="ConnectionSqlServer">Connection SQL Server</typeparam>
+        /// <param name="connection">Objet voiture</param>
+        /// <remarks>
+        /// Si la table existe bel et bien, elle sera supprimée
+        /// </remarks>
+        /// <returns>True si la requête s'est executer correctement, false si une exception est détecté</returns>
         public static bool CreateTableNextGen<T>(ConnectionSqlServer connection, T obj)
         {
             MappingObject objectMapping = new MappingObject();
@@ -225,6 +237,17 @@ namespace Project_Orn
             }
         }
 
+        /// <summary>
+        /// Méthode Insert
+        /// </summary>
+        /// <typeparam name="T">Paramètre générique</typeparam>
+        /// <param name="obj">Objet</param>
+        /// <typeparam name="ConnectionSqlServer">Connection SQL Server</typeparam>
+        /// <param name="connection">Objet voiture</param>
+        /// <remarks>
+        /// on utilise une SQLCommand équipée de paramètre afin d'insérée une valeur dans la table
+        /// </remarks>
+        /// <returns>True si la requête s'est executer correctement, false si une exception est détecté</returns>
         public static bool InsertNextGen<T>(ConnectionSqlServer connection, T obj)
         {
             MappingObject objectMapping = new MappingObject();
@@ -268,6 +291,18 @@ namespace Project_Orn
             }
         }
 
+
+        /// <summary>
+        /// Méthode Drop
+        /// </summary>
+        /// <typeparam name="T">Paramètre générique</typeparam>
+        /// <param name="table">Table</param>
+        /// <typeparam name="ConnectionSqlServer">Connection SQL Server</typeparam>
+        /// <param name="connection">Objet voiture</param>
+        /// <remarks>
+        /// Si la table existe bel et bien, elle sera supprimée
+        /// </remarks>
+        /// <returns>True si la requête s'est executer correctement, false si une exception est détecté</returns>
         public static bool DropTableNextGen<T>(ConnectionSqlServer connection, T obj)
         {
             MappingObject objectMapping = new MappingObject();
@@ -294,6 +329,21 @@ namespace Project_Orn
         }
 
 
+        /// <summary>
+        /// Méthode Select
+        /// </summary>
+        /// <typeparam name="T">Paramètre générique</typeparam>
+        /// <param name="table">Table</param>
+        /// <typeparam name="ConnectionSqlServer">Connection SQL Server</typeparam>
+        /// <param name="connection">Objet voiture</param>
+        /// <typeparam name="string">string</typeparam>
+        /// <param name="column">Une colonne</param>
+        /// <typeparam name="string">string</typeparam>
+        /// <param name="value">Une valeur</param>
+        /// <remarks>
+        /// Des vérifications sont faites avant le select, si aucune précisiion n'est ajouté, la table est renvoyée, si si une valeur ou colonne est donnée alors, un élement sera renvoyé
+        /// </remarks>
+        /// <returns>True si la requête s'est executer correctement, false si une exception est détecté</returns>
         public static List<T> SelectTableNextGen<T>(ConnectionSqlServer connection, string column, string value,
             T table)
         {
@@ -350,6 +400,22 @@ namespace Project_Orn
             }
         }
 
+
+        /// <summary>
+        /// Méthode Delete
+        /// </summary>
+        /// <typeparam name="T">Paramètre générique</typeparam>
+        /// <param name="table">Table</param>
+        /// <typeparam name="ConnectionSqlServer">Connection SQL Server</typeparam>
+        /// <param name="connection">Objet voiture</param>
+        /// <typeparam name="string">string</typeparam>
+        /// <param name="column">Une colonne</param>
+        /// <typeparam name="string">string</typeparam>
+        /// <param name="value">Une valeur</param>
+        /// <remarks>
+        /// Des vérifications sont faites avant l'exécution du programme, si tout est validé, l'élément séléctionné sera supprimé
+        /// </remarks>
+        /// <returns>True si la requête s'est executer correctement, false si une exception est détecté</returns>
         public static bool DeleteElemetFromTableNextGen<T>(ConnectionSqlServer connection, string column, string value,
             T table)
         {
@@ -394,6 +460,22 @@ namespace Project_Orn
             }
         }
 
+
+        /// <summary>
+        /// Méthode Select
+        /// </summary>
+        /// <typeparam name="T">Paramètre générique</typeparam>
+        /// <param name="table">Table</param>
+        /// <typeparam name="ConnectionSqlServer">Connection SQL Server</typeparam>
+        /// <param name="connection">Objet voiture</param>
+        /// <typeparam name="string">string</typeparam>
+        /// <param name="column">Une colonne</param>
+        /// <typeparam name="string">string</typeparam>
+        /// <param name="value">Une valeur</param>
+        /// <remarks>
+        /// Des vérifications sont faites avant l'exécution du programme, si tout est validé, l'élément séléctionné sera modifié
+        /// </remarks>
+        /// <returns>True si la requête s'est executer correctement, false si une exception est détecté</returns>
         public static bool UpdateElementNextGen<T>(ConnectionSqlServer connection, int id, T table)
         {
             if (table.GetType().Name == null)
