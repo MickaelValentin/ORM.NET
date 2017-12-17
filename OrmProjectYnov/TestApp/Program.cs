@@ -1,9 +1,7 @@
-﻿using TestApp.Metier;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Project_Orn;
-using System.Data.SqlClient;
-using System.Data.Odbc;
+using TestApp.Metier;
 
 namespace TestApp
 {

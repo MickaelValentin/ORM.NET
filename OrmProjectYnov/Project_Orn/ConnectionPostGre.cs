@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Project_Orn
+﻿namespace Project_Orn
 {
     public class ConnectionPostGre
     {
