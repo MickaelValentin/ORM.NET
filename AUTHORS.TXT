@@ -2,3 +2,20 @@ Dinesh Salhotra Dass
 Etienne Gobion
 Mickaël Valentin
 Thomas Berranger
+
+Dinesh Salhotra Dass 
+Processus de mapping
+Exexption Handler
+
+Etienne Gobion
+Base MySql and doc
+
+
+Mickaël Valentin
+Base PostGreSql and doc
+
+Thomas Berranger
+Base Sql Server and doc
+
+
+
