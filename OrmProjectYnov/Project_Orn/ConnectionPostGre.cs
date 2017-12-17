@@ -1,5 +1,10 @@
 ﻿namespace Project_Orn
+
 {
+    /// <summary>
+    ///  Permet de créé une base de connection en full string pour PostGre
+    ///  Les parametres changent en fonction de la base
+    /// </summary>
     public class ConnectionPostGre
     {
         public ConnectionPostGre(string driver, string server, string port, string database, string user,

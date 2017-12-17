@@ -5,6 +5,9 @@ using TestApp.Metier;
 
 namespace TestApp
 {
+    /// <summary>
+    /// Creation d objet et lancement des tests
+    /// </summary>
     class Program
     {
         static void Main(string[] args)

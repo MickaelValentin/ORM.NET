@@ -2,6 +2,9 @@
 
 namespace TestApp.Metier
 {
+    /// <summary>
+    /// Classe de test ici l exemple est une voiture
+    /// </summary>
     class Voiture
     {
         public string Brand { get; set; }

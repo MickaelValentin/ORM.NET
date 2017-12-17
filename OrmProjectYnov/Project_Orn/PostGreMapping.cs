@@ -7,6 +7,9 @@ using System.Reflection;
 
 namespace Project_Orn
 {
+    /// <summary>
+    ///  CRUD + CREATE AND DROP TABLE POSTGRE
+    /// </summary>
     public static class PostGreMapping
     {
         #region OldCode
@@ -274,6 +277,15 @@ namespace Project_Orn
 
         #endregion
 
+        #region Insert
+
+        /// <summary>
+        /// Insertion d'élément(s) dans une table en base
+        /// </summary>
+        /// <param name="connection">Connexion à la base</param>
+        /// <param name="obj">Objet générique</param>
+        /// <returns>Retourne true si la requête a été exécutée en base, une exception si il y a une erreur.</returns>
+        /// <exception cref="Exception">Exception déclenchée quand la connexion échoue; l'objet existe déjà en base; quand les types des propriétés ne sont pas respectés; une limite de charactères dépassée. </exception>
         public static bool InsertNextGen<T>(ConnectionPostGre connection, T obj)
         {
             MappingObject objectMapping = new MappingObject();
@@ -319,6 +331,17 @@ namespace Project_Orn
             }
         }
 
+        #endregion
+
+        #region CreateTable
+
+        /// <summary>
+        /// Création de table en base
+        /// </summary>
+        /// <param name="connection">Connexion à la base</param>
+        /// <param name="obj">Objet générique</param>
+        /// <returns>Retourne true si la requête a été exécutée en base, une exception si il y a une erreur.</returns>
+        /// <exception cref="Exception">Exception déclenchée quand la connexion échoue; l'objet existe déjà en base; quand les types des propriétés ne sont pas respectés; une limite de charactères dépassée. </exception>
         public static bool CreateTableNextGen<T>(ConnectionPostGre connection, T obj)
         {
             MappingObject objectMapping = new MappingObject();
@@ -357,6 +380,19 @@ namespace Project_Orn
             }
         }
 
+        #endregion
+
+        #region Select
+
+        /// <summary>
+        /// Lis et affiche les données d'une table en base
+        /// </summary>
+        /// <param name="connection">Connexion à la base.</param>
+        /// <param name="column">Nom de(s) colonne(s) de la table</param>
+        /// <param name="value">Valeur(s) de la table</param>
+        /// <param name="table">Objet générique table</param>
+        /// <returns>Retourne une liste si la requête a été exécutée en base, une exception si il y a une erreur.</returns>
+        /// <exception cref="Exception">Exception déclenchée quand la connexion échoue; l'objet existe déjà en base; quand les types des propriétés ne sont pas respectés; une limite de charactères dépassée. </exception>
         public static List<T> SelectTableNextGen<T>(ConnectionPostGre connection, string column, string value, T table)
         {
             string reqSelectElement;
@@ -413,6 +449,19 @@ namespace Project_Orn
             }
         }
 
+        #endregion
+
+        #region Delete
+
+        /// <summary>
+        /// Supprime un element d'une table en base
+        /// </summary>
+        /// <param name="connection">Connexion à la base.</param>
+        /// <param name="column">Nom de(s) colonne(s) de la table</param>
+        /// <param name="value">Valeur(s) de la table</param>
+        /// <param name="table">Objet générique table</param>
+        /// <returns>Retourne true si la requête a été exécutée en base, une exception si il y a une erreur.</returns>
+        /// <exception cref="Exception">Exception déclenchée quand la connexion échoue; l'objet existe déjà en base; quand les types des propriétés ne sont pas respectés; une limite de charactères dépassée. </exception>
         public static bool DeleteElemetFromTableNextGen<T>(ConnectionPostGre connection, string column, string value,
             T table)
         {
@@ -458,6 +507,17 @@ namespace Project_Orn
             }
         }
 
+        #endregion
+
+        #region DropTable
+
+        /// <summary>
+        /// Supprime une table en base
+        /// </summary>
+        /// <param name="connection">Connexion à la base.</param>
+        /// <param name="obj">Objet générique.</param>
+        /// <returns>Retourne true si la requête a été exécutée en base, une exception si il y a une erreur.</returns>
+        /// <exception cref="Exception">Exception déclenchée quand la connexion échoue; l'objet existe déjà en base; quand les types des propriétés ne sont pas respectés; une limite de charactères dépassée. </exception>
         public static bool DropTableNextGen<T>(ConnectionPostGre connection, T obj)
         {
             MappingObject objectMapping = new MappingObject();
@@ -484,6 +544,18 @@ namespace Project_Orn
             }
         }
 
+        #endregion
+
+        #region Update
+
+        /// <summary>
+        /// Modifie le ou les élément(s) d'une table en base
+        /// </summary>
+        /// <param name="connection">Connexion à la base.</param>
+        /// <param name="id">Id des propriétés à modifier </param>
+        /// <param name="table">Objet générique table</param>
+        /// <returns>Retourne true si la requête a été exécutée en base, une exception si il y a une erreur.</returns>
+        /// <exception cref="Exception">Exception déclenchée quand la connexion échoue; l'objet existe déjà en base; quand les types des propriétés ne sont pas respectés; une limite de charactères dépassée. </exception>
         public static bool UpdateElementNextGen<T>(ConnectionPostGre connection, int id, T table)
         {
             if (table.GetType().Name == null)
@@ -530,6 +602,20 @@ namespace Project_Orn
             }
         }
 
+        #endregion
+
+        #region GetConnection
+
+        /// <summary>
+        /// Connexion à la base
+        /// </summary>
+        /// <param name="driver">Nom du driver de connexion à la base.</param>
+        /// <param name="server">Adresse IP de la base.</param>
+        /// <param name="port">Port de connexion à la base.</param>
+        /// <param name="database">Nom de la base.</param>
+        /// <param name="user">Identifiant utilisateur de la base.</param>
+        /// <param name="password">Mot de passe utilisateur de la base.</param>
+        /// <returns>Retourne la chaîne de connexion permettant de se connecter à la base</returns>
         private static OdbcConnection GetConnection(string driver, string server, string port,
             string database, string user, string password)
         {
@@ -541,5 +627,6 @@ namespace Project_Orn
                 $"Uid={user};" +
                 $"Pwd={password}");
         }
+        #endregion
     }
 }

@@ -5,8 +5,16 @@ using System.Reflection;
 
 namespace Project_Orn
 {
+    /// <summary>
+    /// Toutes les operations de Mapping passe par cette classe
+    /// </summary>
     internal class MappingOperations
     {
+        /// <summary>
+        /// Retourne la list des donnes map en fonction de l objet passe en parametre.
+        /// Une instance de l objet est cree puis l ajout des prorietes.
+        /// Fini par ajoute l instance dans la list
+        /// </summary>
         internal static List<T> MapList<T>(DataTable dt, T c)
         {
             List<T> list = new List<T>();
@@ -37,6 +45,9 @@ namespace Project_Orn
             return list;
         }
 
+        /// <summary>
+        /// Retourne l objet MappingObject pour MySQL.
+        /// </summary>
         internal static MappingObject GetTypeOfProMySQL<T>(T c)
         {
             MappingObject mappingObject = new MappingObject();
@@ -92,6 +103,9 @@ namespace Project_Orn
             return mappingObject;
         }
 
+        /// <summary>
+        /// Retourne l objet MappingObject pour Post Gre.
+        /// </summary>
         internal static MappingObject GetTypeOfProPostGre<T>(T c)
         {
             MappingObject mappingObject = new MappingObject();
@@ -147,6 +161,9 @@ namespace Project_Orn
             return mappingObject;
         }
 
+        /// <summary>
+        /// Retourne l objet MappingObject pour SQL Server.
+        /// </summary>
         internal static MappingObject GetTypeOfProSQLServer<T>(T c)
         {
             MappingObject mappingObject = new MappingObject();
