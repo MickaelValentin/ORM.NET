@@ -8,7 +8,7 @@ namespace Project_Orn
 {
     public class ConnectionSqlServer
     {
-        public ConnectionSqlServer( string server,  string database, string user, string password)
+        public ConnectionSqlServer(string server, string database, string user, string password)
         {
             Server = server;
             DataBase = database;
@@ -20,8 +20,5 @@ namespace Project_Orn
         public string DataBase { get; set; }
         public string User { get; set; }
         public string Password { get; set; }
-
     }
 }
-
-

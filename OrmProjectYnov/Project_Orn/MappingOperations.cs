@@ -35,7 +35,6 @@ namespace Project_Orn
                 }
 
                 list.Add(t);
-
             }
 
             return list;
@@ -58,44 +57,42 @@ namespace Project_Orn
                 switch (propertyInfoObject.PropertyType.Name.ToString())
                 {
                     case "Int32":
-                        {
-                            propertyAttributes.TypeInfo = "INT";
-                            break;
-                        }
+                    {
+                        propertyAttributes.TypeInfo = "INT";
+                        break;
+                    }
                     case "String":
-                        {
-                            propertyAttributes.TypeInfo = "MEDIUMTEXT";
-                            break;
-                        }
+                    {
+                        propertyAttributes.TypeInfo = "MEDIUMTEXT";
+                        break;
+                    }
                     case "DateTime":
-                        {
-                            propertyAttributes.TypeInfo = "DATETIME";
-                            break;
-                        }
+                    {
+                        propertyAttributes.TypeInfo = "DATETIME";
+                        break;
+                    }
                     case "Boolean":
-                        {
-                            propertyAttributes.TypeInfo = "BIT";
-                            break;
-                        }
+                    {
+                        propertyAttributes.TypeInfo = "BIT";
+                        break;
+                    }
                     case "Single":
-                        {
-                            propertyAttributes.TypeInfo = "FLOAT";
-                            break;
-                        }
+                    {
+                        propertyAttributes.TypeInfo = "FLOAT";
+                        break;
+                    }
                     case "Double":
-                        {
-                            propertyAttributes.TypeInfo = "DOUBLE";
-                            break;
-                        }
+                    {
+                        propertyAttributes.TypeInfo = "DOUBLE";
+                        break;
+                    }
                 }
 
                 mappingObject.PropertiesAttributes.Add(propertyAttributes);
             }
 
 
-
             return mappingObject;
-
         }
 
         internal static MappingObject GetTypeOfProPostGre<T>(T c)
@@ -115,44 +112,42 @@ namespace Project_Orn
                 switch (propertyInfoObject.PropertyType.Name.ToString())
                 {
                     case "Int32":
-                        {
-                            propertyAttributes.TypeInfo = "int";
-                            break;
-                        }
+                    {
+                        propertyAttributes.TypeInfo = "int";
+                        break;
+                    }
                     case "String":
-                        {
-                            propertyAttributes.TypeInfo = "text";
-                            break;
-                        }
+                    {
+                        propertyAttributes.TypeInfo = "text";
+                        break;
+                    }
                     case "DateTime":
-                        {
-                            propertyAttributes.TypeInfo = "date";
-                            break;
-                        }
+                    {
+                        propertyAttributes.TypeInfo = "date";
+                        break;
+                    }
                     case "Boolean":
-                        {
-                            propertyAttributes.TypeInfo = "boolean";
-                            break;
-                        }
+                    {
+                        propertyAttributes.TypeInfo = "boolean";
+                        break;
+                    }
                     case "Single":
-                        {
-                            propertyAttributes.TypeInfo = "real";
-                            break;
-                        }
+                    {
+                        propertyAttributes.TypeInfo = "real";
+                        break;
+                    }
                     case "Double":
-                        {
-                            propertyAttributes.TypeInfo = "double precision";
-                            break;
-                        }
+                    {
+                        propertyAttributes.TypeInfo = "double precision";
+                        break;
+                    }
                 }
 
                 mappingObject.PropertiesAttributes.Add(propertyAttributes);
             }
 
 
-
             return mappingObject;
-
         }
 
         internal static MappingObject GetTypeOfProSQLServer<T>(T c)
@@ -172,44 +167,42 @@ namespace Project_Orn
                 switch (propertyInfoObject.PropertyType.Name.ToString())
                 {
                     case "Int32":
-                        {
-                            propertyAttributes.TypeInfo = "INT";
-                            break;
-                        }
+                    {
+                        propertyAttributes.TypeInfo = "INT";
+                        break;
+                    }
                     case "String":
-                        {
-                            propertyAttributes.TypeInfo = "TEXT";
-                            break;
-                        }
+                    {
+                        propertyAttributes.TypeInfo = "TEXT";
+                        break;
+                    }
                     case "DateTime":
-                        {
-                            propertyAttributes.TypeInfo = "DATETIME";
-                            break;
-                        }
+                    {
+                        propertyAttributes.TypeInfo = "DATETIME";
+                        break;
+                    }
                     case "Boolean":
-                        {
-                            propertyAttributes.TypeInfo = "BIT";
-                            break;
-                        }
+                    {
+                        propertyAttributes.TypeInfo = "BIT";
+                        break;
+                    }
                     case "Single":
-                        {
-                            propertyAttributes.TypeInfo = "REAL";
-                            break;
-                        }
+                    {
+                        propertyAttributes.TypeInfo = "REAL";
+                        break;
+                    }
                     case "Double":
-                        {
-                            propertyAttributes.TypeInfo = "FLOAT";
-                            break;
-                        }
+                    {
+                        propertyAttributes.TypeInfo = "FLOAT";
+                        break;
+                    }
                 }
 
                 mappingObject.PropertiesAttributes.Add(propertyAttributes);
             }
 
 
-
             return mappingObject;
-
         }
     }
 }

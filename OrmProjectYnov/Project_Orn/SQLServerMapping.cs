@@ -12,6 +12,7 @@ namespace Project_Orn
     public class SQLServerMapping
     {
         #region OldCode
+
         /*
         public void Connection()
         {
@@ -178,6 +179,7 @@ namespace Project_Orn
 
         }
          */
+
         #endregion
 
         public static SqlConnection GetConnection(string server, string database, string user, string password)
@@ -197,7 +199,8 @@ namespace Project_Orn
             string reqCreateTable = $"CREATE TABLE  {objectMapping.ObjectName}(ID INT IDENTITY NOT NULL PRIMARY KEY,";
             for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
             {
-                reqCreateTable += $"{objectMapping.PropertiesAttributes[i].NameInfo} {objectMapping.PropertiesAttributes[i].TypeInfo}";
+                reqCreateTable +=
+                    $"{objectMapping.PropertiesAttributes[i].NameInfo} {objectMapping.PropertiesAttributes[i].TypeInfo}";
                 if (i != objectMapping.PropertiesAttributes.Count() - 1)
                 {
                     reqCreateTable += ",";
@@ -207,7 +210,8 @@ namespace Project_Orn
             reqCreateTable += ")";
             try
             {
-                using (SqlConnection conn = GetConnection(connection.Server, connection.DataBase, connection.User, connection.Password))
+                using (SqlConnection conn = GetConnection(connection.Server, connection.DataBase, connection.User,
+                    connection.Password))
                 {
                     conn.Open();
                     using (SqlCommand queryToCreateTable = new SqlCommand(reqCreateTable, conn))
@@ -219,9 +223,7 @@ namespace Project_Orn
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                Console.ReadKey();
-                return false;
+                throw new Exception(e.Message);
             }
         }
 
@@ -243,7 +245,8 @@ namespace Project_Orn
 
             try
             {
-                using (SqlConnection conn = GetConnection(connection.Server, connection.DataBase, connection.User, connection.Password))
+                using (SqlConnection conn = GetConnection(connection.Server, connection.DataBase, connection.User,
+                    connection.Password))
                 {
                     conn.Open();
                     using (SqlCommand queryToInsert = new SqlCommand(reqInsertElement, conn))
@@ -251,7 +254,8 @@ namespace Project_Orn
                         for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
                         {
                             PropertyAttributes infoFormapping = objectMapping.PropertiesAttributes[i];
-                            queryToInsert.Parameters.AddWithValue($"{infoFormapping.NameInfo}", infoFormapping.ValueInfo);
+                            queryToInsert.Parameters.AddWithValue($"{infoFormapping.NameInfo}",
+                                infoFormapping.ValueInfo);
                         }
 
 
@@ -262,12 +266,10 @@ namespace Project_Orn
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                return false;
+                throw new Exception(e.Message);
             }
-
-
         }
+
         public static bool DropTableNextGen<T>(ConnectionSqlServer connection, T obj)
         {
             MappingObject objectMapping = new MappingObject();
@@ -276,7 +278,7 @@ namespace Project_Orn
             try
             {
                 using (SqlConnection conn = GetConnection(connection.Server,
-                 connection.DataBase, connection.User, connection.Password))
+                    connection.DataBase, connection.User, connection.Password))
                 {
                     conn.Open();
 
@@ -287,15 +289,15 @@ namespace Project_Orn
                     }
                 }
             }
-            catch (Exception c)
+            catch (Exception e)
             {
-                Console.WriteLine(c);
-                return false;
+                throw new Exception(e.Message);
             }
         }
 
 
-        public static List<T> SelectTableNextGen<T>(ConnectionSqlServer connection, string column, string value, T table)
+        public static List<T> SelectTableNextGen<T>(ConnectionSqlServer connection, string column, string value,
+            T table)
         {
             string reqSelectElement;
             if (table.GetType().Name == null)
@@ -309,7 +311,6 @@ namespace Project_Orn
                 if (column.Equals(item.Name))
                 {
                     isAProperty = true;
-
                 }
             }
             if (isAProperty == false)
@@ -330,7 +331,7 @@ namespace Project_Orn
             try
             {
                 using (SqlConnection conn = GetConnection(connection.Server,
-                   connection.DataBase, connection.User, connection.Password))
+                    connection.DataBase, connection.User, connection.Password))
 
                 {
                     conn.Open();
@@ -347,11 +348,12 @@ namespace Project_Orn
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                return null;
+                throw new Exception(e.Message);
             }
         }
-        public static bool DeleteElemetFromTableNextGen<T>(ConnectionSqlServer connection, string column, string value, T table)
+
+        public static bool DeleteElemetFromTableNextGen<T>(ConnectionSqlServer connection, string column, string value,
+            T table)
         {
             if (table.GetType().Name == null)
             {
@@ -376,7 +378,7 @@ namespace Project_Orn
             try
             {
                 using (SqlConnection conn = GetConnection(connection.Server,
-     connection.DataBase, connection.User, connection.Password))
+                    connection.DataBase, connection.User, connection.Password))
 
                 {
                     conn.Open();
@@ -390,24 +392,24 @@ namespace Project_Orn
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                return false;
+                throw new Exception(e.Message);
             }
         }
+
         public static bool UpdateElementNextGen<T>(ConnectionSqlServer connection, int id, T table)
         {
             if (table.GetType().Name == null)
             {
                 Console.WriteLine("obj not found");
                 return false;
-
             }
             MappingObject objectMapping = new MappingObject();
             objectMapping = MappingOperations.GetTypeOfProPostGre(table);
             string reqUpdate = $"UPDATE  {table.GetType().Name.ToString()} SET ";
             for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
             {
-                reqUpdate += $"{objectMapping.PropertiesAttributes[i].NameInfo} = @{objectMapping.PropertiesAttributes[i].NameInfo}";
+                reqUpdate +=
+                    $"{objectMapping.PropertiesAttributes[i].NameInfo} = @{objectMapping.PropertiesAttributes[i].NameInfo}";
                 if (i != objectMapping.PropertiesAttributes.Count() - 1)
                 {
                     reqUpdate += ",";
@@ -417,7 +419,7 @@ namespace Project_Orn
             try
             {
                 using (SqlConnection conn = GetConnection(connection.Server,
-      connection.DataBase, connection.User, connection.Password))
+                    connection.DataBase, connection.User, connection.Password))
 
                 {
                     conn.Open();
@@ -436,10 +438,8 @@ namespace Project_Orn
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                return false;
+                throw new Exception(e.Message);
             }
         }
     }
-
 }

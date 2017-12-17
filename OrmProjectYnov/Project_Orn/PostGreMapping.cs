@@ -11,8 +11,8 @@ namespace Project_Orn
 {
     public static class PostGreMapping
     {
-
         #region OldCode
+
         /*
         public static void Select()
         {
@@ -273,6 +273,7 @@ namespace Project_Orn
 
         }
         */
+
         #endregion
 
         public static bool InsertNextGen<T>(ConnectionPostGre connection, T obj)
@@ -305,7 +306,8 @@ namespace Project_Orn
                         for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
                         {
                             PropertyAttributes infoFormapping = objectMapping.PropertiesAttributes[i];
-                            queryToInsert.Parameters.AddWithValue($"{infoFormapping.NameInfo}", infoFormapping.ValueInfo);
+                            queryToInsert.Parameters.AddWithValue($"{infoFormapping.NameInfo}",
+                                infoFormapping.ValueInfo);
                         }
                         queryToInsert.Prepare();
                         queryToInsert.ExecuteNonQuery();
@@ -315,12 +317,11 @@ namespace Project_Orn
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                return false;
+                throw new Exception(e.Message);
             }
         }
 
-        public static bool CreateTableNextGen<T>(ConnectionPostGre connection , T obj)
+        public static bool CreateTableNextGen<T>(ConnectionPostGre connection, T obj)
         {
             MappingObject objectMapping = new MappingObject();
             objectMapping = MappingOperations.GetTypeOfProPostGre(obj);
@@ -329,7 +330,8 @@ namespace Project_Orn
             string reqCreateTable = $"CREATE TABLE IF NOT EXISTS {objectMapping.ObjectName}(ID SERIAL PRIMARY KEY,";
             for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
             {
-                reqCreateTable += $"{objectMapping.PropertiesAttributes[i].NameInfo} {objectMapping.PropertiesAttributes[i].TypeInfo}";
+                reqCreateTable +=
+                    $"{objectMapping.PropertiesAttributes[i].NameInfo} {objectMapping.PropertiesAttributes[i].TypeInfo}";
                 if (i != objectMapping.PropertiesAttributes.Count() - 1)
                 {
                     reqCreateTable += ",";
@@ -339,9 +341,8 @@ namespace Project_Orn
             reqCreateTable += ")";
             try
             {
-
                 using (OdbcConnection conn = GetConnection(connection.Driver, connection.Server, connection.Port,
-                connection.DataBase, connection.User, connection.Password))
+                    connection.DataBase, connection.User, connection.Password))
 
                 {
                     conn.Open();
@@ -354,8 +355,7 @@ namespace Project_Orn
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                return false;
+                throw new Exception(e.Message);
             }
         }
 
@@ -373,7 +373,6 @@ namespace Project_Orn
                 if (column.Equals(item.Name))
                 {
                     isAProperty = true;
-
                 }
             }
             if (isAProperty == false)
@@ -394,7 +393,7 @@ namespace Project_Orn
             try
             {
                 using (OdbcConnection conn = GetConnection(connection.Driver, connection.Server, connection.Port,
-                 connection.DataBase, connection.User, connection.Password))
+                    connection.DataBase, connection.User, connection.Password))
 
                 {
                     conn.Open();
@@ -412,12 +411,12 @@ namespace Project_Orn
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                return null;
+                throw new Exception(e.Message);
             }
         }
 
-        public static bool DeleteElemetFromTableNextGen<T>(ConnectionPostGre connection,string column, string value, T table)
+        public static bool DeleteElemetFromTableNextGen<T>(ConnectionPostGre connection, string column, string value,
+            T table)
         {
             if (table.GetType().Name == null)
             {
@@ -442,7 +441,7 @@ namespace Project_Orn
             try
             {
                 using (OdbcConnection conn = GetConnection(connection.Driver, connection.Server, connection.Port,
-                   connection.DataBase, connection.User, connection.Password))
+                    connection.DataBase, connection.User, connection.Password))
 
                 {
                     conn.Open();
@@ -457,12 +456,11 @@ namespace Project_Orn
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                return false;
+                throw new Exception(e.Message);
             }
         }
 
-        public static bool DropTableNextGen<T>(ConnectionPostGre connection,T obj)
+        public static bool DropTableNextGen<T>(ConnectionPostGre connection, T obj)
         {
             MappingObject objectMapping = new MappingObject();
             objectMapping = MappingOperations.GetTypeOfProPostGre(obj);
@@ -470,7 +468,7 @@ namespace Project_Orn
             try
             {
                 using (OdbcConnection conn = GetConnection(connection.Driver, connection.Server, connection.Port,
-                 connection.DataBase, connection.User, connection.Password))
+                    connection.DataBase, connection.User, connection.Password))
 
                 {
                     conn.Open();
@@ -482,11 +480,9 @@ namespace Project_Orn
                     }
                 }
             }
-            catch (Exception c)
+            catch (Exception e)
             {
-                Console.WriteLine(c);
-                return false;
-
+                throw new Exception(e.Message);
             }
         }
 
@@ -496,7 +492,6 @@ namespace Project_Orn
             {
                 Console.WriteLine("obj not found");
                 return false;
-
             }
             MappingObject objectMapping = new MappingObject();
             objectMapping = MappingOperations.GetTypeOfProPostGre(table);
@@ -513,7 +508,7 @@ namespace Project_Orn
             try
             {
                 using (OdbcConnection conn = GetConnection(connection.Driver, connection.Server, connection.Port,
-                 connection.DataBase, connection.User, connection.Password))
+                    connection.DataBase, connection.User, connection.Password))
 
                 {
                     conn.Open();
@@ -533,8 +528,7 @@ namespace Project_Orn
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
-                return false;
+                throw new Exception(e.Message);
             }
         }
 
@@ -550,5 +544,4 @@ namespace Project_Orn
                 $"Pwd={password}");
         }
     }
-
 }

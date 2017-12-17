@@ -1,9 +1,11 @@
 ﻿using System;
+
 namespace Project_Orn
 {
     public class ConnectionPostGre
     {
-        public ConnectionPostGre(string driver, string server, string port, string database, string user, string password)
+        public ConnectionPostGre(string driver, string server, string port, string database, string user,
+            string password)
         {
             Driver = driver;
             Server = server;
@@ -20,5 +22,4 @@ namespace Project_Orn
         public string User { get; set; }
         public string Password { get; set; }
     }
-
 }

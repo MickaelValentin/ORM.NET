@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Odbc;
-
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -14,6 +13,7 @@ namespace Project_Orn
     public static class MySqlMapping
     {
         #region Old Code
+
         /*
         public static void createSqlTable()
         {
@@ -260,9 +260,11 @@ e.WriteLine("La table à bien été créer");
             }
         }
         */
+
         #endregion
 
         #region Insert
+
         /// <summary>
         /// Méthode Insert
         /// </summary>
@@ -315,7 +317,8 @@ e.WriteLine("La table à bien été créer");
                         for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
                         {
                             PropertyAttributes infoFormapping = objectMapping.PropertiesAttributes[i];
-                            queryToInsert.Parameters.AddWithValue($"{infoFormapping.NameInfo}", infoFormapping.ValueInfo);
+                            queryToInsert.Parameters.AddWithValue($"{infoFormapping.NameInfo}",
+                                infoFormapping.ValueInfo);
                         }
                         queryToInsert.Prepare();
                         queryToInsert.ExecuteNonQuery();
@@ -325,10 +328,10 @@ e.WriteLine("La table à bien été créer");
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                return false;
+                throw new Exception(e.Message);
             }
         }
+
         #endregion
 
         #region Create
@@ -357,16 +360,18 @@ e.WriteLine("La table à bien été créer");
         {
             MappingObject objectMapping = new MappingObject();
             objectMapping = MappingOperations.GetTypeOfProMySQL(obj);
-            string reqCreateTable = $"CREATE TABLE IF NOT EXISTS {objectMapping.ObjectName}(ID int NOT NULL AUTO_INCREMENT,";
+            string reqCreateTable =
+                $"CREATE TABLE IF NOT EXISTS {objectMapping.ObjectName}(ID int NOT NULL AUTO_INCREMENT,";
             for (int i = 0; i < objectMapping.PropertiesAttributes.Count(); i++)
             {
-                reqCreateTable += $"{objectMapping.PropertiesAttributes[i].NameInfo} {objectMapping.PropertiesAttributes[i].TypeInfo},";
+                reqCreateTable +=
+                    $"{objectMapping.PropertiesAttributes[i].NameInfo} {objectMapping.PropertiesAttributes[i].TypeInfo},";
             }
             reqCreateTable += "PRIMARY KEY(ID))";
             try
             {
                 using (OdbcConnection conn = GetConnection(connection.Driver, connection.Server,
-                  connection.DataBase, connection.User, connection.Password))
+                    connection.DataBase, connection.User, connection.Password))
                 {
                     conn.Open();
                     using (OdbcCommand queryToCreateTable = new OdbcCommand(reqCreateTable, conn))
@@ -378,10 +383,10 @@ e.WriteLine("La table à bien été créer");
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                return false;
+                throw new Exception(e.Message);
             }
         }
+
         #endregion
 
         #region Select
@@ -442,7 +447,7 @@ e.WriteLine("La table à bien été créer");
             try
             {
                 using (OdbcConnection conn = GetConnection(connection.Driver, connection.Server,
-     connection.DataBase, connection.User, connection.Password))
+                    connection.DataBase, connection.User, connection.Password))
                 {
                     conn.Open();
                     using (OdbcCommand queryToSelectElement = new OdbcCommand(reqSelectElement, conn))
@@ -459,10 +464,10 @@ e.WriteLine("La table à bien été créer");
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                return null;
+                throw new Exception(e.Message);
             }
         }
+
         #endregion
 
         #region Delete
@@ -484,7 +489,8 @@ e.WriteLine("La table à bien été créer");
         /// Ajout de la valeur à supprimer et de la colonne ou chercher
         /// </remarks>
         /// <returns>true si la requête c'est dérouler correctement, false si une exeption est détecté</returns>
-        public static bool DeleteElemetFromTableNextGen<T>(ConnectionMySql connection, string column, string value, T table)
+        public static bool DeleteElemetFromTableNextGen<T>(ConnectionMySql connection, string column, string value,
+            T table)
         {
             if (table.GetType().Name == null)
             {
@@ -509,7 +515,7 @@ e.WriteLine("La table à bien été créer");
             try
             {
                 using (OdbcConnection conn = GetConnection(connection.Driver, connection.Server,
-            connection.DataBase, connection.User, connection.Password))
+                    connection.DataBase, connection.User, connection.Password))
                 {
                     conn.Open();
                     using (OdbcCommand queryToDeleteElement = new OdbcCommand(reqDelete, conn))
@@ -523,10 +529,10 @@ e.WriteLine("La table à bien été créer");
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                return false;
+                throw new Exception(e.Message);
             }
         }
+
         #endregion
 
         #region Drop
@@ -552,7 +558,7 @@ e.WriteLine("La table à bien été créer");
             try
             {
                 using (OdbcConnection conn = GetConnection(connection.Driver, connection.Server,
-                   connection.DataBase, connection.User, connection.Password))
+                    connection.DataBase, connection.User, connection.Password))
                 {
                     conn.Open();
 
@@ -563,13 +569,12 @@ e.WriteLine("La table à bien été créer");
                     }
                 }
             }
-            catch (Exception c)
+            catch (Exception e)
             {
-                Console.WriteLine(c);
-                return false;
-
+                throw new Exception(e.Message);
             }
         }
+
         #endregion
 
         #region Update
@@ -601,7 +606,6 @@ e.WriteLine("La table à bien été créer");
             {
                 Console.WriteLine("obj not found");
                 return false;
-
             }
             MappingObject objectMapping = new MappingObject();
             objectMapping = MappingOperations.GetTypeOfProMySQL(table);
@@ -618,7 +622,7 @@ e.WriteLine("La table à bien été créer");
             try
             {
                 using (OdbcConnection conn = GetConnection(connection.Driver, connection.Server,
-                 connection.DataBase, connection.User, connection.Password))
+                    connection.DataBase, connection.User, connection.Password))
                 {
                     conn.Open();
                     using (OdbcCommand queryUpdate = new OdbcCommand(reqUpdate, conn))
@@ -637,13 +641,14 @@ e.WriteLine("La table à bien été créer");
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
-                return false;
+                throw new Exception(e.Message);
             }
         }
+
         #endregion
 
         #region Get Connection
+
         public static OdbcConnection GetConnection(string driver, string server,
             string database, string user, string password)
         {
@@ -654,12 +659,7 @@ e.WriteLine("La table à bien été créer");
                 $"USER={user};" +
                 $"PASSWORD={password}");
         }
+
         #endregion
-
-
-
-
-
     }
 }
-
